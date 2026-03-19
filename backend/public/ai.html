@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Travel Assistant - Ride Link</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --bg: #f9fafb;
+            --card-bg: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: var(--card-bg);
+            box-shadow: 0 4px 20px var(--shadow);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo i { color: var(--accent); }
+
+        .ai-badge {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 25px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        nav a:hover { color: var(--primary); }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #8b5cf6 0%, #2563eb 50%, #ec4899 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='400' cy='400' r='100'/%3E%3Ccircle cx='200' cy='200' r='80'/%3E%3Ccircle cx='600' cy='300' r='60'/%3E%3Ccircle cx='300' cy='600' r='70'/%3E%3Ccircle cx='700' cy='500' r='50'/%3E%3C/g%3E%3C/svg%3E");
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-50%, -50%); }
+        }
+
+        .hero-content { position: relative; z-index: 1; }
+        
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; opacity: 0.9; }
+
+        /* Chat Container */
+        .chat-container {
+            max-width: 900px;
+            margin: -3rem auto 2rem;
+            padding: 0 1rem;
+        }
+
+        .chat-box {
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            max-height: 400px;
+        }
+
+        .message {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.ai {
+            flex-direction: row;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .message.ai .message-avatar {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+        }
+
+        .message.user .message-avatar {
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            color: white;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 1rem 1.25rem;
+            border-radius: 15px;
+            line-height: 1.5;
+        }
+
+        .message.ai .message-content {
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            border-bottom-left-radius: 3px;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #2563eb, #8b5cf6);
+            color: white;
+            border-bottom-right-radius: 3px;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            padding: 1rem 1.5rem;
+            background: #f9fafb;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .quick-btn {
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quick-btn:hover {
+            background: linear-gradient(135deg, #2563eb, #8b5cf6);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Chat Input */
+        .chat-input-area {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+        }
+
+        .send-btn {
+            padding: 0 1.5rem;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Features Grid */
+        .features-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+
+        .features-title {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px var(--shadow);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .feature-card h3 { margin-bottom: 0.5rem; }
+        .feature-card p { color: var(--text-light); font-size: 0.9rem; }
+
+        /* Loading */
+        .typing-indicator {
+            display: flex;
+            gap: 0.3rem;
+            padding: 1rem;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #8b5cf6;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0.6); }
+            40% { transform: scale(1); }
+        }
+
+        /* Footer */
+        footer {
+            background: var(--card-bg);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .message-content { max-width: 85%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="/" class="logo">
+            <i class="fas fa-bus"></i>
+            <span>Ride Link</span>
+        </a>
+        <div class="ai-badge">
+            <i class="fas fa-robot"></i> AI Assistant
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1><i class="fas fa-robot"></i> AI Travel Assistant</h1>
+            <p>Ask me anything about routes, fares, and travel tips!</p>
+        </div>
+    </section>
+
+    <!-- Chat -->
+    <div class="chat-container">
+        <div class="chat-box">
+            <div class="chat-messages" id="chatMessages">
+                <div class="message ai">
+                    <div class="message-avatar"><i class="fas fa-robot"></i></div>
+                    <div class="message-content">
+                        Hello! I'm your AI travel assistant. I can help you with:
+                        <ul style="margin: 0.5rem 0 0 1rem;">
+                            <li>Finding the best routes</li>
+                            <li>Checking fare prices</li>
+                            <li>Travel tips and recommendations</li>
+                            <li>Booking assistance</li>
+                        </ul>
+                        How can I help you today?
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <button class="quick-btn" onclick="quickAsk('cheapest route from Jaipur to Ajmer')">🚌 Cheapest Route</button>
+                <button class="quick-btn" onclick="quickAsk('bus timing from Sindhi Camp')">⏰ Bus Timings</button>
+                <button class="quick-btn" onclick="quickAsk('AC buses available')">❄️ AC Buses</button>
+                <button class="quick-btn" onclick="quickAsk('weekend travel tips')">🎯 Weekend Tips</button>
+            </div>
+
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Type your question...">
+                <button class="send-btn" onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <section">
+        <h class="features-section2 class="features-title">AI Capabilities</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-route"></i></div>
+                <h3>Route Finder</h3>
+                <p>AI-powered route suggestions based on your preferences</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-tags"></i></div>
+                <h3>Smart Pricing</h3>
+                <p>Get fare predictions and find the best deals</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-clock"></i></div>
+                <h3>Time Optimization</h3>
+                <p>Find the fastest routes and avoid peak hours</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-comments"></i></div>
+                <h3>24/7 Support</h3>
+                <p>Get instant answers to all your travel queries</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Ride Link AI. Powered by Artificial Intelligence.</p>
+    </footer>
+
+    <script>
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+
+        // Send message on Enter
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // Quick action button
+        function quickAsk(question) {
+            chatInput.value = question;
+            sendMessage();
+        }
+
+        // Send message
+        async function sendMessage() {
+            const userMessage = chatInput.value.trim();
+            if (!userMessage) return;
+
+            // Add user message
+            addMessage(userMessage, 'user');
+            chatInput.value = '';
+
+            // Show typing indicator
+            showTyping();
+
+            // Simulate AI response delay
+            setTimeout(() => {
+                hideTyping();
+                generateAIResponse(userMessage);
+            }, 1500);
+        }
+
+        // Add message to chat
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            messageDiv.innerHTML = `
+                <div class="message-avatar">
+                    <i class="fas fa-${sender === 'ai' ? 'robot' : 'user'}"></i>
+                </div>
+                <div class="message-content">${text}</div>
+            `;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Show typing indicator
+        function showTyping() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message ai';
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = `
+                <div class="message-avatar"><i class="fas fa-robot"></i></div>
+                <div class="message-content">
+                    <div class="typing-indicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            `;
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Hide typing indicator
+        function hideTyping() {
+            const typing = document.getElementById('typingIndicator');
+            if (typing) typing.remove();
+        }
+
+        // Generate AI response
+        async function generateAIResponse(userMessage) {
+            const message = userMessage.toLowerCase();
+            let response = '';
+
+            // Fetch real data from API
+            try {
+                const ridesResponse = await fetch('/api/rides');
+                const rides = await ridesResponse.json();
+
+                if (message.includes('cheap') || message.includes('cheapest') || message.includes('fare') || message.includes('price')) {
+                    if (rides.length > 0) {
+                        const cheapest = rides.reduce((min, r) => (r.fare_inr < min.fare_inr ? r : min), rides[0]);
+                        response = `Based on current data, the cheapest route is <strong>${cheapest.route_number}</strong> at just ₹${cheapest.fare_inr}. This is a ${cheapest.bus_type} bus from ${cheapest.start_point} to ${cheapest.end_point}. Would you like me to show you more options?`;
+                    } else {
+                        response = 'I found some great fare options for you! Typically, Non-AC buses offer the best value. Would you like me to search for specific routes?';
+                    }
+                } 
+                else if (message.includes('time') || message.includes('timing') || message.includes('schedule')) {
+                    const schedules = rides.slice(0, 3).map(r => `${r.route_number}: ${r.departure_time}`).join(', ');
+                    response = `Here are some departure times: ${schedules}. Buses run every ${rides[0]?.frequency_minutes || 15} minutes. Would you like more details?`;
+                }
+                else if (message.includes('ac')) {
+                    const acBuses = rides.filter(r => r.bus_type?.toLowerCase().includes('ac'));
+                    if (acBuses.length > 0) {
+                        response = `I found ${acBuses.length} AC buses available! The first one is <strong>${acBuses[0].route_number}</strong> from ${acBuses[0].start_point} to ${acBuses[0].end_point} at ₹${acBuses[0].fare_inr}.`;
+                    } else {
+                        response = 'There are no AC buses in the current database. You can check Non-AC options which are equally comfortable!';
+                    }
+                }
+                else if (message.includes('route') || message.includes('from') || message.includes('to')) {
+                    response = `I can help you find routes! We have ${rides.length} routes available in our system. Please tell me your starting point and destination, and I'll find the best route for you!`;
+                }
+                else if (message.includes('weekend') || message.includes('tip')) {
+                    response = `Weekend Travel Tips:
+                    <ul style="margin: 0.5rem 0 0 1rem;">
+                        <li>Book 2-3 days in advance for best fares</li>
+                        <li>Morning buses (8-10 AM) are less crowded</li>
+                        <li>Weekends can bebusy - arrive 30 mins early</li>
+                        <li>AC buses are recommended for long journeys</li>
+                    </ul>`;
+                }
+                else if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
+                    response = `Hello! 👋 I'm here to help you with your travel plans. You can ask me about:
+                    <ul style="margin: 0.5rem 0 0 1rem;">
+                        <li>Route information</li>
+                        <li>Fare prices</li>
+                        <li>Bus schedules</li>
+                        <li>Travel tips</li>
+                    </ul>`;
+                }
+                else {
+                    response = `I understand you're asking about "${userMessage}". Based on my analysis of our transport system, I'd recommend checking our Smart Fares page for the latest prices and routes. Would you like me to help you search?`;
+                }
+            } catch (error) {
+                console.error('Error fetching rides:', error);
+                response = getFallbackResponse(message);
+            }
+
+            addMessage(response, 'ai');
+        }
+
+        // Fallback responses
+        function getFallbackResponse(message) {
+            const responses = [
+                "That's a great question! Let me find the best information for you.",
+                "I'd be happy to help with that! Could you provide more details?",
+                "Based on my analysis, here are some insights for you.",
+                "Great question! Let me explain what I know about that."
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+    </script>
+</body>
+</html>
+

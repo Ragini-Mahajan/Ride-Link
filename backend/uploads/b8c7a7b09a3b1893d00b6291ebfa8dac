@@ -1,0 +1,1402 @@
+[
+  {
+    "id": 1,
+    "route_number": "7",
+    "route_name": "Chomu Puliya to Sanganer",
+    "start_point": "Chomu Puliya",
+    "end_point": "Sanganer",
+    "bus_type": "AC",
+    "departure_time": "9:00",
+    "arrival_time": "18:00",
+    "frequency_minutes": 15,
+    "major_stops": [
+      "GPO",
+      "Tonk Road",
+      "Chandpole",
+      "Civil Lines"
+    ],
+    "fare_inr": 15,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 2,
+    "route_number": "5",
+    "route_name": "Sitapura to Ajmeri Gate",
+    "start_point": "Sitapura",
+    "end_point": "Ajmeri Gate",
+    "bus_type": "Non-AC",
+    "departure_time": "5:00",
+    "arrival_time": "19:45",
+    "frequency_minutes": 20,
+    "major_stops": [
+      "Sindhi Camp",
+      "GPO",
+      "Tonk Road",
+      "Vaishali Nagar"
+    ],
+    "fare_inr": 25,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 3,
+    "route_number": "2",
+    "route_name": "Bhankrota to Chandpole",
+    "start_point": "Bhankrota",
+    "end_point": "Chandpole",
+    "bus_type": "AC",
+    "departure_time": "6:00",
+    "arrival_time": "20:00",
+    "frequency_minutes": 20,
+    "major_stops": [
+      "Ajmeri Gate",
+      "Sindhi Camp",
+      "Vaishali Nagar",
+      "Tonk Road"
+    ],
+    "fare_inr": 30,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 4,
+    "route_number": "9",
+    "route_name": "Agarwal Farm to Jaipur Junction",
+    "start_point": "Agarwal Farm",
+    "end_point": "Jaipur Junction",
+    "bus_type": "AC",
+    "departure_time": "6:15",
+    "arrival_time": "18:00",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "Tonk Road",
+      "Sindhi Camp",
+      "Ajmeri Gate",
+      "Vaishali Nagar"
+    ],
+    "fare_inr": 15,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 5,
+    "route_number": "AC1",
+    "route_name": "Airport to Sindhi Camp",
+    "start_point": "Airport",
+    "end_point": "Sindhi Camp",
+    "bus_type": "AC",
+    "departure_time": "9:45",
+    "arrival_time": "18:30",
+    "frequency_minutes": 20,
+    "major_stops": [
+      "Tonk Road",
+      "Civil Lines",
+      "Chandpole",
+      "GPO"
+    ],
+    "fare_inr": 15,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 6,
+    "route_number": "3A",
+    "route_name": "Sanganer to Choti Chaupad",
+    "start_point": "Sanganer",
+    "end_point": "Choti Chaupad",
+    "bus_type": "Non-AC",
+    "departure_time": "8:45",
+    "arrival_time": "19:30",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "Ajmeri Gate",
+      "Tonk Road",
+      "Vaishali Nagar",
+      "Civil Lines"
+    ],
+    "fare_inr": 10,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 7,
+    "route_number": "1A",
+    "route_name": "VKI Road No.17 to Transport Nagar",
+    "start_point": "VKI Road No.17",
+    "end_point": "Transport Nagar",
+    "bus_type": "Non-AC",
+    "departure_time": "9:15",
+    "arrival_time": "19:30",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "Tonk Road",
+      "GPO",
+      "Chandpole",
+      "MI Road"
+    ],
+    "fare_inr": 25,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 8,
+    "route_number": "9",
+    "route_name": "Agarwal Farm to Jaipur Junction",
+    "start_point": "Agarwal Farm",
+    "end_point": "Jaipur Junction",
+    "bus_type": "AC",
+    "departure_time": "7:30",
+    "arrival_time": "22:00",
+    "frequency_minutes": 15,
+    "major_stops": [
+      "Vaishali Nagar",
+      "Ajmeri Gate",
+      "Chandpole",
+      "Sindhi Camp"
+    ],
+    "fare_inr": 15,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 9,
+    "route_number": "3A",
+    "route_name": "Sanganer to Choti Chaupad",
+    "start_point": "Sanganer",
+    "end_point": "Choti Chaupad",
+    "bus_type": "AC",
+    "departure_time": "7:30",
+    "arrival_time": "22:15",
+    "frequency_minutes": 20,
+    "major_stops": [
+      "Sindhi Camp",
+      "GPO",
+      "Ajmeri Gate",
+      "Civil Lines"
+    ],
+    "fare_inr": 25,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 10,
+    "route_number": "3A",
+    "route_name": "Sanganer to Choti Chaupad",
+    "start_point": "Sanganer",
+    "end_point": "Choti Chaupad",
+    "bus_type": "Non-AC",
+    "departure_time": "5:15",
+    "arrival_time": "18:30",
+    "frequency_minutes": 15,
+    "major_stops": [
+      "Sindhi Camp",
+      "Vaishali Nagar",
+      "Civil Lines",
+      "Tonk Road"
+    ],
+    "fare_inr": 30,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 11,
+    "route_number": "1",
+    "route_name": "Todi to Transport Nagar",
+    "start_point": "Todi",
+    "end_point": "Transport Nagar",
+    "bus_type": "AC",
+    "departure_time": "5:00",
+    "arrival_time": "18:30",
+    "frequency_minutes": 15,
+    "major_stops": [
+      "Chandpole",
+      "MI Road",
+      "Ajmeri Gate",
+      "GPO"
+    ],
+    "fare_inr": 20,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 12,
+    "route_number": "1",
+    "route_name": "Todi to Transport Nagar",
+    "start_point": "Todi",
+    "end_point": "Transport Nagar",
+    "bus_type": "AC",
+    "departure_time": "7:00",
+    "arrival_time": "19:30",
+    "frequency_minutes": 30,
+    "major_stops": [
+      "GPO",
+      "MI Road",
+      "Chandpole",
+      "Civil Lines"
+    ],
+    "fare_inr": 25,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 13,
+    "route_number": "1",
+    "route_name": "Todi to Transport Nagar",
+    "start_point": "Todi",
+    "end_point": "Transport Nagar",
+    "bus_type": "Non-AC",
+    "departure_time": "6:15",
+    "arrival_time": "20:30",
+    "frequency_minutes": 15,
+    "major_stops": [
+      "MI Road",
+      "Tonk Road",
+      "Ajmeri Gate",
+      "Chandpole"
+    ],
+    "fare_inr": 15,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 14,
+    "route_number": "3",
+    "route_name": "Dwarkapuri to Badi Chaupad",
+    "start_point": "Dwarkapuri",
+    "end_point": "Badi Chaupad",
+    "bus_type": "Non-AC",
+    "departure_time": "8:15",
+    "arrival_time": "20:15",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "Tonk Road",
+      "Sindhi Camp",
+      "GPO",
+      "Civil Lines"
+    ],
+    "fare_inr": 10,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 15,
+    "route_number": "3A",
+    "route_name": "Sanganer to Choti Chaupad",
+    "start_point": "Sanganer",
+    "end_point": "Choti Chaupad",
+    "bus_type": "Non-AC",
+    "departure_time": "7:30",
+    "arrival_time": "22:00",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "Vaishali Nagar",
+      "MI Road",
+      "Sindhi Camp",
+      "GPO"
+    ],
+    "fare_inr": 10,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 16,
+    "route_number": "1A",
+    "route_name": "VKI Road No.17 to Transport Nagar",
+    "start_point": "VKI Road No.17",
+    "end_point": "Transport Nagar",
+    "bus_type": "Non-AC",
+    "departure_time": "9:30",
+    "arrival_time": "21:45",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "Chandpole",
+      "Vaishali Nagar",
+      "MI Road",
+      "GPO"
+    ],
+    "fare_inr": 10,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 17,
+    "route_number": "5",
+    "route_name": "Sitapura to Ajmeri Gate",
+    "start_point": "Sitapura",
+    "end_point": "Ajmeri Gate",
+    "bus_type": "AC",
+    "departure_time": "5:30",
+    "arrival_time": "22:45",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "Civil Lines",
+      "Vaishali Nagar",
+      "GPO",
+      "Ajmeri Gate"
+    ],
+    "fare_inr": 20,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 18,
+    "route_number": "9",
+    "route_name": "Agarwal Farm to Jaipur Junction",
+    "start_point": "Agarwal Farm",
+    "end_point": "Jaipur Junction",
+    "bus_type": "Non-AC",
+    "departure_time": "7:45",
+    "arrival_time": "21:30",
+    "frequency_minutes": 15,
+    "major_stops": [
+      "Tonk Road",
+      "Sindhi Camp",
+      "Civil Lines",
+      "Chandpole"
+    ],
+    "fare_inr": 15,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 19,
+    "route_number": "AC1",
+    "route_name": "Airport to Sindhi Camp",
+    "start_point": "Airport",
+    "end_point": "Sindhi Camp",
+    "bus_type": "Non-AC",
+    "departure_time": "9:00",
+    "arrival_time": "20:30",
+    "frequency_minutes": 20,
+    "major_stops": [
+      "Tonk Road",
+      "Sindhi Camp",
+      "Vaishali Nagar",
+      "Civil Lines"
+    ],
+    "fare_inr": 20,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 20,
+    "route_number": "7",
+    "route_name": "Chomu Puliya to Sanganer",
+    "start_point": "Chomu Puliya",
+    "end_point": "Sanganer",
+    "bus_type": "AC",
+    "departure_time": "8:45",
+    "arrival_time": "21:15",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "Vaishali Nagar",
+      "Sindhi Camp",
+      "Civil Lines",
+      "Chandpole"
+    ],
+    "fare_inr": 20,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 21,
+    "route_number": "1A",
+    "route_name": "VKI Road No.17 to Transport Nagar",
+    "start_point": "VKI Road No.17",
+    "end_point": "Transport Nagar",
+    "bus_type": "AC",
+    "departure_time": "6:15",
+    "arrival_time": "20:15",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "Ajmeri Gate",
+      "MI Road",
+      "Tonk Road",
+      "Vaishali Nagar"
+    ],
+    "fare_inr": 10,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 22,
+    "route_number": "7",
+    "route_name": "Chomu Puliya to Sanganer",
+    "start_point": "Chomu Puliya",
+    "end_point": "Sanganer",
+    "bus_type": "AC",
+    "departure_time": "8:45",
+    "arrival_time": "22:45",
+    "frequency_minutes": 30,
+    "major_stops": [
+      "Tonk Road",
+      "MI Road",
+      "Civil Lines",
+      "Ajmeri Gate"
+    ],
+    "fare_inr": 10,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 23,
+    "route_number": "5",
+    "route_name": "Sitapura to Ajmeri Gate",
+    "start_point": "Sitapura",
+    "end_point": "Ajmeri Gate",
+    "bus_type": "Non-AC",
+    "departure_time": "6:00",
+    "arrival_time": "19:15",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "Sindhi Camp",
+      "MI Road",
+      "Tonk Road",
+      "Vaishali Nagar"
+    ],
+    "fare_inr": 30,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 24,
+    "route_number": "AC1",
+    "route_name": "Airport to Sindhi Camp",
+    "start_point": "Airport",
+    "end_point": "Sindhi Camp",
+    "bus_type": "Non-AC",
+    "departure_time": "7:45",
+    "arrival_time": "21:15",
+    "frequency_minutes": 30,
+    "major_stops": [
+      "Sindhi Camp",
+      "GPO",
+      "MI Road",
+      "Chandpole"
+    ],
+    "fare_inr": 30,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 25,
+    "route_number": "7",
+    "route_name": "Chomu Puliya to Sanganer",
+    "start_point": "Chomu Puliya",
+    "end_point": "Sanganer",
+    "bus_type": "Non-AC",
+    "departure_time": "6:00",
+    "arrival_time": "20:30",
+    "frequency_minutes": 15,
+    "major_stops": [
+      "Vaishali Nagar",
+      "GPO",
+      "Chandpole",
+      "Sindhi Camp"
+    ],
+    "fare_inr": 10,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 26,
+    "route_number": "2",
+    "route_name": "Bhankrota to Chandpole",
+    "start_point": "Bhankrota",
+    "end_point": "Chandpole",
+    "bus_type": "Non-AC",
+    "departure_time": "6:15",
+    "arrival_time": "19:15",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "Chandpole",
+      "Tonk Road",
+      "GPO",
+      "Vaishali Nagar"
+    ],
+    "fare_inr": 25,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 27,
+    "route_number": "5",
+    "route_name": "Sitapura to Ajmeri Gate",
+    "start_point": "Sitapura",
+    "end_point": "Ajmeri Gate",
+    "bus_type": "Non-AC",
+    "departure_time": "5:45",
+    "arrival_time": "19:00",
+    "frequency_minutes": 30,
+    "major_stops": [
+      "Sindhi Camp",
+      "Ajmeri Gate",
+      "GPO",
+      "Civil Lines"
+    ],
+    "fare_inr": 25,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 28,
+    "route_number": "5",
+    "route_name": "Sitapura to Ajmeri Gate",
+    "start_point": "Sitapura",
+    "end_point": "Ajmeri Gate",
+    "bus_type": "AC",
+    "departure_time": "9:45",
+    "arrival_time": "22:15",
+    "frequency_minutes": 20,
+    "major_stops": [
+      "Chandpole",
+      "Tonk Road",
+      "Ajmeri Gate",
+      "Sindhi Camp"
+    ],
+    "fare_inr": 20,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 29,
+    "route_number": "5",
+    "route_name": "Sitapura to Ajmeri Gate",
+    "start_point": "Sitapura",
+    "end_point": "Ajmeri Gate",
+    "bus_type": "AC",
+    "departure_time": "6:00",
+    "arrival_time": "21:45",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "MI Road",
+      "Civil Lines",
+      "Tonk Road",
+      "Sindhi Camp"
+    ],
+    "fare_inr": 25,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 30,
+    "route_number": "2",
+    "route_name": "Bhankrota to Chandpole",
+    "start_point": "Bhankrota",
+    "end_point": "Chandpole",
+    "bus_type": "Non-AC",
+    "departure_time": "5:30",
+    "arrival_time": "20:15",
+    "frequency_minutes": 30,
+    "major_stops": [
+      "Civil Lines",
+      "GPO",
+      "Tonk Road",
+      "Chandpole"
+    ],
+    "fare_inr": 25,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 31,
+    "route_number": "3A",
+    "route_name": "Sanganer to Choti Chaupad",
+    "start_point": "Sanganer",
+    "end_point": "Choti Chaupad",
+    "bus_type": "AC",
+    "departure_time": "5:00",
+    "arrival_time": "21:30",
+    "frequency_minutes": 15,
+    "major_stops": [
+      "MI Road",
+      "Chandpole",
+      "Civil Lines",
+      "Ajmeri Gate"
+    ],
+    "fare_inr": 10,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 32,
+    "route_number": "3",
+    "route_name": "Dwarkapuri to Badi Chaupad",
+    "start_point": "Dwarkapuri",
+    "end_point": "Badi Chaupad",
+    "bus_type": "AC",
+    "departure_time": "6:15",
+    "arrival_time": "18:15",
+    "frequency_minutes": 30,
+    "major_stops": [
+      "MI Road",
+      "Vaishali Nagar",
+      "Sindhi Camp",
+      "Tonk Road"
+    ],
+    "fare_inr": 20,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 33,
+    "route_number": "3B",
+    "route_name": "Pannadhay Circle to Amer",
+    "start_point": "Pannadhay Circle",
+    "end_point": "Amer",
+    "bus_type": "AC",
+    "departure_time": "6:15",
+    "arrival_time": "22:30",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "Ajmeri Gate",
+      "GPO",
+      "Vaishali Nagar",
+      "Tonk Road"
+    ],
+    "fare_inr": 25,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 34,
+    "route_number": "3",
+    "route_name": "Dwarkapuri to Badi Chaupad",
+    "start_point": "Dwarkapuri",
+    "end_point": "Badi Chaupad",
+    "bus_type": "AC",
+    "departure_time": "5:00",
+    "arrival_time": "22:30",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "Ajmeri Gate",
+      "GPO",
+      "Vaishali Nagar",
+      "Tonk Road"
+    ],
+    "fare_inr": 20,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 35,
+    "route_number": "1A",
+    "route_name": "VKI Road No.17 to Transport Nagar",
+    "start_point": "VKI Road No.17",
+    "end_point": "Transport Nagar",
+    "bus_type": "AC",
+    "departure_time": "9:45",
+    "arrival_time": "20:45",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "Chandpole",
+      "GPO",
+      "Civil Lines",
+      "Tonk Road"
+    ],
+    "fare_inr": 15,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 36,
+    "route_number": "5",
+    "route_name": "Sitapura to Ajmeri Gate",
+    "start_point": "Sitapura",
+    "end_point": "Ajmeri Gate",
+    "bus_type": "Non-AC",
+    "departure_time": "6:45",
+    "arrival_time": "22:45",
+    "frequency_minutes": 30,
+    "major_stops": [
+      "Vaishali Nagar",
+      "GPO",
+      "MI Road",
+      "Ajmeri Gate"
+    ],
+    "fare_inr": 20,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 37,
+    "route_number": "7",
+    "route_name": "Chomu Puliya to Sanganer",
+    "start_point": "Chomu Puliya",
+    "end_point": "Sanganer",
+    "bus_type": "Non-AC",
+    "departure_time": "6:30",
+    "arrival_time": "21:00",
+    "frequency_minutes": 30,
+    "major_stops": [
+      "Civil Lines",
+      "MI Road",
+      "Tonk Road",
+      "Chandpole"
+    ],
+    "fare_inr": 20,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 38,
+    "route_number": "3A",
+    "route_name": "Sanganer to Choti Chaupad",
+    "start_point": "Sanganer",
+    "end_point": "Choti Chaupad",
+    "bus_type": "Non-AC",
+    "departure_time": "7:00",
+    "arrival_time": "20:15",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "Tonk Road",
+      "Civil Lines",
+      "Sindhi Camp",
+      "Chandpole"
+    ],
+    "fare_inr": 30,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 39,
+    "route_number": "3",
+    "route_name": "Dwarkapuri to Badi Chaupad",
+    "start_point": "Dwarkapuri",
+    "end_point": "Badi Chaupad",
+    "bus_type": "Non-AC",
+    "departure_time": "8:00",
+    "arrival_time": "21:00",
+    "frequency_minutes": 20,
+    "major_stops": [
+      "Tonk Road",
+      "Sindhi Camp",
+      "Civil Lines",
+      "MI Road"
+    ],
+    "fare_inr": 20,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 40,
+    "route_number": "AC1",
+    "route_name": "Airport to Sindhi Camp",
+    "start_point": "Airport",
+    "end_point": "Sindhi Camp",
+    "bus_type": "Non-AC",
+    "departure_time": "7:45",
+    "arrival_time": "21:30",
+    "frequency_minutes": 20,
+    "major_stops": [
+      "Sindhi Camp",
+      "GPO",
+      "Chandpole",
+      "Civil Lines"
+    ],
+    "fare_inr": 15,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 41,
+    "route_number": "1A",
+    "route_name": "VKI Road No.17 to Transport Nagar",
+    "start_point": "VKI Road No.17",
+    "end_point": "Transport Nagar",
+    "bus_type": "AC",
+    "departure_time": "6:15",
+    "arrival_time": "20:15",
+    "frequency_minutes": 15,
+    "major_stops": [
+      "Sindhi Camp",
+      "GPO",
+      "Civil Lines",
+      "Vaishali Nagar"
+    ],
+    "fare_inr": 30,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 42,
+    "route_number": "AC1",
+    "route_name": "Airport to Sindhi Camp",
+    "start_point": "Airport",
+    "end_point": "Sindhi Camp",
+    "bus_type": "AC",
+    "departure_time": "7:30",
+    "arrival_time": "18:15",
+    "frequency_minutes": 20,
+    "major_stops": [
+      "GPO",
+      "Sindhi Camp",
+      "Ajmeri Gate",
+      "Vaishali Nagar"
+    ],
+    "fare_inr": 15,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 43,
+    "route_number": "3A",
+    "route_name": "Sanganer to Choti Chaupad",
+    "start_point": "Sanganer",
+    "end_point": "Choti Chaupad",
+    "bus_type": "Non-AC",
+    "departure_time": "5:15",
+    "arrival_time": "18:45",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "Ajmeri Gate",
+      "Vaishali Nagar",
+      "GPO",
+      "Tonk Road"
+    ],
+    "fare_inr": 25,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 44,
+    "route_number": "7",
+    "route_name": "Chomu Puliya to Sanganer",
+    "start_point": "Chomu Puliya",
+    "end_point": "Sanganer",
+    "bus_type": "AC",
+    "departure_time": "7:30",
+    "arrival_time": "19:45",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "MI Road",
+      "Tonk Road",
+      "Chandpole",
+      "Ajmeri Gate"
+    ],
+    "fare_inr": 30,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 45,
+    "route_number": "1",
+    "route_name": "Todi to Transport Nagar",
+    "start_point": "Todi",
+    "end_point": "Transport Nagar",
+    "bus_type": "Non-AC",
+    "departure_time": "6:00",
+    "arrival_time": "19:15",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "Chandpole",
+      "Vaishali Nagar",
+      "Sindhi Camp",
+      "Civil Lines"
+    ],
+    "fare_inr": 15,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 46,
+    "route_number": "9",
+    "route_name": "Agarwal Farm to Jaipur Junction",
+    "start_point": "Agarwal Farm",
+    "end_point": "Jaipur Junction",
+    "bus_type": "Non-AC",
+    "departure_time": "8:30",
+    "arrival_time": "21:45",
+    "frequency_minutes": 20,
+    "major_stops": [
+      "Ajmeri Gate",
+      "Vaishali Nagar",
+      "Civil Lines",
+      "Sindhi Camp"
+    ],
+    "fare_inr": 15,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 47,
+    "route_number": "3",
+    "route_name": "Dwarkapuri to Badi Chaupad",
+    "start_point": "Dwarkapuri",
+    "end_point": "Badi Chaupad",
+    "bus_type": "AC",
+    "departure_time": "7:15",
+    "arrival_time": "18:15",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "GPO",
+      "Ajmeri Gate",
+      "Tonk Road",
+      "Civil Lines"
+    ],
+    "fare_inr": 30,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 48,
+    "route_number": "7",
+    "route_name": "Chomu Puliya to Sanganer",
+    "start_point": "Chomu Puliya",
+    "end_point": "Sanganer",
+    "bus_type": "AC",
+    "departure_time": "7:30",
+    "arrival_time": "18:30",
+    "frequency_minutes": 30,
+    "major_stops": [
+      "MI Road",
+      "Civil Lines",
+      "Sindhi Camp",
+      "GPO"
+    ],
+    "fare_inr": 30,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 49,
+    "route_number": "3",
+    "route_name": "Dwarkapuri to Badi Chaupad",
+    "start_point": "Dwarkapuri",
+    "end_point": "Badi Chaupad",
+    "bus_type": "AC",
+    "departure_time": "8:15",
+    "arrival_time": "18:30",
+    "frequency_minutes": 15,
+    "major_stops": [
+      "MI Road",
+      "Ajmeri Gate",
+      "Sindhi Camp",
+      "GPO"
+    ],
+    "fare_inr": 30,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 50,
+    "route_number": "AC1",
+    "route_name": "Airport to Sindhi Camp",
+    "start_point": "Airport",
+    "end_point": "Sindhi Camp",
+    "bus_type": "AC",
+    "departure_time": "7:45",
+    "arrival_time": "21:30",
+    "frequency_minutes": 30,
+    "major_stops": [
+      "Vaishali Nagar",
+      "Sindhi Camp",
+      "Chandpole",
+      "Tonk Road"
+    ],
+    "fare_inr": 25,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 51,
+    "route_number": "1A",
+    "route_name": "VKI Road No.17 to Transport Nagar",
+    "start_point": "VKI Road No.17",
+    "end_point": "Transport Nagar",
+    "bus_type": "Non-AC",
+    "departure_time": "9:30",
+    "arrival_time": "18:30",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "MI Road",
+      "Sindhi Camp",
+      "Civil Lines",
+      "Vaishali Nagar"
+    ],
+    "fare_inr": 30,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 52,
+    "route_number": "1",
+    "route_name": "Todi to Transport Nagar",
+    "start_point": "Todi",
+    "end_point": "Transport Nagar",
+    "bus_type": "AC",
+    "departure_time": "7:15",
+    "arrival_time": "22:45",
+    "frequency_minutes": 30,
+    "major_stops": [
+      "Vaishali Nagar",
+      "MI Road",
+      "Sindhi Camp",
+      "Tonk Road"
+    ],
+    "fare_inr": 25,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 53,
+    "route_number": "1A",
+    "route_name": "VKI Road No.17 to Transport Nagar",
+    "start_point": "VKI Road No.17",
+    "end_point": "Transport Nagar",
+    "bus_type": "Non-AC",
+    "departure_time": "8:30",
+    "arrival_time": "20:30",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "GPO",
+      "Sindhi Camp",
+      "Tonk Road",
+      "Civil Lines"
+    ],
+    "fare_inr": 20,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 54,
+    "route_number": "5",
+    "route_name": "Sitapura to Ajmeri Gate",
+    "start_point": "Sitapura",
+    "end_point": "Ajmeri Gate",
+    "bus_type": "Non-AC",
+    "departure_time": "9:00",
+    "arrival_time": "18:30",
+    "frequency_minutes": 20,
+    "major_stops": [
+      "Civil Lines",
+      "Ajmeri Gate",
+      "Tonk Road",
+      "Vaishali Nagar"
+    ],
+    "fare_inr": 10,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 55,
+    "route_number": "9",
+    "route_name": "Agarwal Farm to Jaipur Junction",
+    "start_point": "Agarwal Farm",
+    "end_point": "Jaipur Junction",
+    "bus_type": "AC",
+    "departure_time": "8:15",
+    "arrival_time": "21:30",
+    "frequency_minutes": 30,
+    "major_stops": [
+      "Sindhi Camp",
+      "Chandpole",
+      "Ajmeri Gate",
+      "MI Road"
+    ],
+    "fare_inr": 20,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 56,
+    "route_number": "9",
+    "route_name": "Agarwal Farm to Jaipur Junction",
+    "start_point": "Agarwal Farm",
+    "end_point": "Jaipur Junction",
+    "bus_type": "Non-AC",
+    "departure_time": "6:45",
+    "arrival_time": "20:00",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "Tonk Road",
+      "Civil Lines",
+      "MI Road",
+      "GPO"
+    ],
+    "fare_inr": 30,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 57,
+    "route_number": "1",
+    "route_name": "Todi to Transport Nagar",
+    "start_point": "Todi",
+    "end_point": "Transport Nagar",
+    "bus_type": "AC",
+    "departure_time": "9:15",
+    "arrival_time": "21:00",
+    "frequency_minutes": 30,
+    "major_stops": [
+      "MI Road",
+      "Civil Lines",
+      "Sindhi Camp",
+      "Tonk Road"
+    ],
+    "fare_inr": 20,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 58,
+    "route_number": "9",
+    "route_name": "Agarwal Farm to Jaipur Junction",
+    "start_point": "Agarwal Farm",
+    "end_point": "Jaipur Junction",
+    "bus_type": "Non-AC",
+    "departure_time": "7:45",
+    "arrival_time": "21:15",
+    "frequency_minutes": 30,
+    "major_stops": [
+      "GPO",
+      "Tonk Road",
+      "MI Road",
+      "Vaishali Nagar"
+    ],
+    "fare_inr": 30,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 59,
+    "route_number": "2",
+    "route_name": "Bhankrota to Chandpole",
+    "start_point": "Bhankrota",
+    "end_point": "Chandpole",
+    "bus_type": "Non-AC",
+    "departure_time": "5:30",
+    "arrival_time": "20:30",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "Vaishali Nagar",
+      "Civil Lines",
+      "GPO",
+      "Sindhi Camp"
+    ],
+    "fare_inr": 30,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 60,
+    "route_number": "7",
+    "route_name": "Chomu Puliya to Sanganer",
+    "start_point": "Chomu Puliya",
+    "end_point": "Sanganer",
+    "bus_type": "Non-AC",
+    "departure_time": "6:30",
+    "arrival_time": "21:30",
+    "frequency_minutes": 30,
+    "major_stops": [
+      "Sindhi Camp",
+      "GPO",
+      "MI Road",
+      "Civil Lines"
+    ],
+    "fare_inr": 30,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 61,
+    "route_number": "5",
+    "route_name": "Sitapura to Ajmeri Gate",
+    "start_point": "Sitapura",
+    "end_point": "Ajmeri Gate",
+    "bus_type": "AC",
+    "departure_time": "6:30",
+    "arrival_time": "21:45",
+    "frequency_minutes": 30,
+    "major_stops": [
+      "Chandpole",
+      "Civil Lines",
+      "Sindhi Camp",
+      "MI Road"
+    ],
+    "fare_inr": 25,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 62,
+    "route_number": "1",
+    "route_name": "Todi to Transport Nagar",
+    "start_point": "Todi",
+    "end_point": "Transport Nagar",
+    "bus_type": "Non-AC",
+    "departure_time": "6:00",
+    "arrival_time": "22:45",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "Sindhi Camp",
+      "Ajmeri Gate",
+      "Civil Lines",
+      "MI Road"
+    ],
+    "fare_inr": 25,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 63,
+    "route_number": "2",
+    "route_name": "Bhankrota to Chandpole",
+    "start_point": "Bhankrota",
+    "end_point": "Chandpole",
+    "bus_type": "Non-AC",
+    "departure_time": "5:30",
+    "arrival_time": "21:45",
+    "frequency_minutes": 10,
+    "major_stops": [
+      "Civil Lines",
+      "Chandpole",
+      "Sindhi Camp",
+      "Vaishali Nagar"
+    ],
+    "fare_inr": 25,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 64,
+    "route_number": "3B",
+    "route_name": "Pannadhay Circle to Amer",
+    "start_point": "Pannadhay Circle",
+    "end_point": "Amer",
+    "bus_type": "AC",
+    "departure_time": "8:00",
+    "arrival_time": "22:15",
+    "frequency_minutes": 20,
+    "major_stops": [
+      "Tonk Road",
+      "Civil Lines",
+      "Ajmeri Gate",
+      "Sindhi Camp"
+    ],
+    "fare_inr": 10,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 65,
+    "route_number": "1A",
+    "route_name": "VKI Road No.17 to Transport Nagar",
+    "start_point": "VKI Road No.17",
+    "end_point": "Transport Nagar",
+    "bus_type": "Non-AC",
+    "departure_time": "8:00",
+    "arrival_time": "19:00",
+    "frequency_minutes": 20,
+    "major_stops": [
+      "Ajmeri Gate",
+      "GPO",
+      "Chandpole",
+      "Civil Lines"
+    ],
+    "fare_inr": 25,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 66,
+    "route_number": "2",
+    "route_name": "Bhankrota to Chandpole",
+    "start_point": "Bhankrota",
+    "end_point": "Chandpole",
+    "bus_type": "Non-AC",
+    "departure_time": "6:15",
+    "arrival_time": "22:15",
+    "frequency_minutes": 15,
+    "major_stops": [
+      "MI Road",
+      "Vaishali Nagar",
+      "Tonk Road",
+      "Chandpole"
+    ],
+    "fare_inr": 15,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 67,
+    "route_number": "7",
+    "route_name": "Chomu Puliya to Sanganer",
+    "start_point": "Chomu Puliya",
+    "end_point": "Sanganer",
+    "bus_type": "AC",
+    "departure_time": "9:45",
+    "arrival_time": "19:30",
+    "frequency_minutes": 30,
+    "major_stops": [
+      "Vaishali Nagar",
+      "Civil Lines",
+      "Ajmeri Gate",
+      "Tonk Road"
+    ],
+    "fare_inr": 20,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 68,
+    "route_number": "9",
+    "route_name": "Agarwal Farm to Jaipur Junction",
+    "start_point": "Agarwal Farm",
+    "end_point": "Jaipur Junction",
+    "bus_type": "Non-AC",
+    "departure_time": "6:30",
+    "arrival_time": "18:30",
+    "frequency_minutes": 30,
+    "major_stops": [
+      "Vaishali Nagar",
+      "Tonk Road",
+      "GPO",
+      "MI Road"
+    ],
+    "fare_inr": 25,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 69,
+    "route_number": "7",
+    "route_name": "Chomu Puliya to Sanganer",
+    "start_point": "Chomu Puliya",
+    "end_point": "Sanganer",
+    "bus_type": "Non-AC",
+    "departure_time": "5:30",
+    "arrival_time": "19:30",
+    "frequency_minutes": 20,
+    "major_stops": [
+      "Ajmeri Gate",
+      "Chandpole",
+      "Civil Lines",
+      "Tonk Road"
+    ],
+    "fare_inr": 20,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  },
+  {
+    "id": 70,
+    "route_number": "1",
+    "route_name": "Todi to Transport Nagar",
+    "start_point": "Todi",
+    "end_point": "Transport Nagar",
+    "bus_type": "Non-AC",
+    "departure_time": "9:30",
+    "arrival_time": "18:15",
+    "frequency_minutes": 20,
+    "major_stops": [
+      "Tonk Road",
+      "Civil Lines",
+      "MI Road",
+      "Vaishali Nagar"
+    ],
+    "fare_inr": 20,
+    "operator": "JCTSL",
+    "city": "Jaipur"
+  }
+]

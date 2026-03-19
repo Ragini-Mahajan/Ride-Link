@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ride Link - Bus Ticket Booking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --bg: #f9fafb;
+            --card-bg: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --shadow-hover: rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+        }
+
+        .dark-mode {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #a78bfa;
+            --accent: #f472b6;
+            --text: #f3f4f6;
+            --text-light: #d1d5db;
+            --bg: #111827;
+            --card-bg: #1f2937;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --shadow-hover: rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--card-bg);
+            box-shadow: 0 4px 12px var(--shadow);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-size: 1.8rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: var(--transition);
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        nav a.active {
+            color: var(--primary);
+        }
+
+        nav a.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--shadow);
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .user-menu {
+            position: relative;
+            display: none;
+        }
+
+        .user-menu.show {
+            display: block;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px var(--shadow);
+            min-width: 200px;
+            display: none;
+            overflow: hidden;
+        }
+
+        .user-dropdown.active {
+            display: block;
+        }
+
+        .user-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .user-dropdown a:hover {
+            background: var(--shadow);
+            color: var(--primary);
+        }
+
+        /* Hero Section - FlixBus Style */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 3rem 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='0.08' d='M0,160L48,170.7C96,181,192,203,288,197.3C384,192,480,160,576,138.7C672,117,768,107,864,117.3C960,128,1056,160,1152,165.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            background-position: bottom;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-subtitle {
+            color: rgba(255,255,255,0.9);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* FlixBus Style Search Box */
+        .search-container {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .search-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto auto;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .search-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .search-field label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .search-field input, .search-field select {
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: var(--transition);
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .search-field input:focus, .search-field select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .search-field i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper input {
+            padding-left: 2.5rem;
+            width: 100%;
+        }
+
+        .swap-btn {
+            background: var(--bg);
+            border: 2px solid #e5e7eb;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text);
+            align-self: end;
+            margin-bottom: 2px;
+        }
+
+        .swap-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            transform: rotate(180deg);
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4);
+        }
+
+        .search-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .search-options {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .search-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+
+        .search-option input {
+            accent-color: var(--primary);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .section-subtitle {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        /* Popular Routes */
+        .routes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .route-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .route-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 40px var(--shadow-hover);
+        }
+
+        .route-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .route-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .route-price {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .route-path {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .route-path i {
+            color: var(--primary);
+        }
+
+        .route-details {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 1rem;
+            border-top: 1px solid var(--shadow);
+        }
+
+        .route-info {
+            text-align: center;
+        }
+
+        .route-info-label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        .route-info-value {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Features Section */
+        .features-section {
+            background: linear-gradient(180deg, var(--bg) 0%, rgba(37, 99, 235, 0.05) 100%);
+            padding: 4rem 1rem;
+            margin-bottom: 4rem;
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-desc {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* App Section */
+        .app-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 60%;
+            height: 200%;
+            background: rgba(255,255,255,0.1);
+            transform: rotate(15deg);
+        }
+
+        .app-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .app-text h2 {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .app-text p {
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .app-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .app-btn {
+            background: rgba(0,0,0,0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .app-btn:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        .app-btn-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .app-btn-text span:first-child {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+
+        .app-btn-text span:last-child {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .app-phone {
+            display: flex;
+            justify-content: center;
+        }
+
+        .phone-mockup {
+            width: 240px;
+            height: 480px;
+            background: #1a1a2e;
+            border-radius: 40px;
+            border: 8px solid #2a2a3e;
+            position: relative;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--card-bg);
+            padding: 3rem 1rem;
+            box-shadow: 0 -5px 20px var(--shadow);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--bg);
+            color: var(--text);
+            border-radius: 50%;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--shadow);
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top: 3px solid white;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        .search-btn.loading .spinner {
+            display: inline-block;
+        }
+
+        .search-btn.loading .search-text {
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--card-bg);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 450px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlide 0.3s ease;
+        }
+
+        @keyframes modalSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--shadow);
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--shadow);
+            color: var(--text);
+        }
+
+        .modal-switch {
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--text-light);
+        }
+
+        .modal-switch a {
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .alert {
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .search-fields {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .search-btn {
+                grid-column: span 2;
+                justify-content: center;
+            }
+            
+            .app-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .app-buttons {
+                justify-content: center;
+            }
+            
+            .app-phone {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+            }
+            
+            .header-content {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .search-fields {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-btn {
+                grid-column: span 1;
+            }
+            
+            .search-options {
+                flex-wrap: wrap;
+            }
+            
+            .app-section {
+                padding: 2rem;
+            }
+            
+            .app-text h2 {
+                font-size: 1.5rem;
+            }
+            
+            .app-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">
+                <i class="fas fa-bus"></i>
+                <span>Ride Link</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="/" class="active">Home</a></li>
+                    <li><a href="/map">Map</a></li>
+                    <li><a href="/routes">Routes</a></li>
+                    <li><a href="/schedule">Schedule</a></li>
+                    <li><a href="/about">About</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="login-btn" id="loginBtn">Sign In</button>
+                <div class="user-menu" id="userMenu">
+                    <div class="user-avatar" id="userAvatar">JD</div>
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="/dashboard"><i class="fas fa-user"></i> My Profile</a>
+                        <a href="/dashboard"><i class="fas fa-ticket-alt"></i> My Bookings</a>
+                        <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section with Search -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Book Bus Tickets Online</h1>
+            <p class="hero-subtitle">Compare prices, find the best routes, and book tickets easily</p>
+            
+            <div class="search-container">
+                <form id="searchForm" class="search-fields">
+                    <div class="search-field">
+                        <label>From</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input type="text" id="fromInput" placeholder="City or Station" list="locations" required>
+                            <datalist id="locations"></datalist>
+                        </div>
+                    </div>
+                    
+                    <button type="button" class="swap-btn" id="swapBtn" title="Swap stations">
+                        <i class="fas fa-exchange-alt"></i>
+                    </button>
+                    
+                    <div class="search-field">
+                        <label>To</label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input type="text" id="toInput" placeholder="City or Station" list="locations" required>
+                        </div>
+                    </div>
+                    
+                    <div class="search-field">
+                        <label>Date</label>
+                        <input type="date" id="dateInput" required>
+                    </div>
+                    
+                    <div class="search-field">
+                        <label>Passengers</label>
+                        <select id="passengers">
+                            <option value="1">1 Passenger</option>
+                            <option value="2">2 Passengers</option>
+                            <option value="3">3 Passengers</option>
+                            <option value="4">4 Passengers</option>
+                            <option value="5">5+ Passengers</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="search-btn" id="searchBtn">
+                        <span class="spinner"></span>
+                        <span class="search-text"><i class="fas fa-search"></i> Search Buses</span>
+                    </button>
+                </form>
+                
+                <div class="search-options">
+                    <label class="search-option">
+                        <input type="checkbox" id="returnTrip">
+                        <span>Return trip</span>
+                    </label>
+                    <label class="search-option">
+                        <input type="checkbox" id="onlyAc">
+                        <span>AC buses only</span>
+                    </label>
+                    <label class="search-option">
+                        <input type="checkbox" id="sleeper">
+                        <span>Sleeper seats</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Popular Routes -->
+        <section class="popular-routes">
+            <h2 class="section-title">Popular Routes</h2>
+            <p class="section-subtitle">Most booked bus routes this month</p>
+            
+            <div class="routes-grid" id="popularRoutes">
+                <!-- Routes will be loaded from API -->
+                <div class="route-card" onclick="searchRoute('Jaipur', 'Ajmer')">
+                    <div class="route-card-header">
+                        <span class="route-name">Jaipur - Ajmer</span>
+                        <span class="route-price">From ₹150</span>
+                    </div>
+                    <div class="route-path">
+                        <i class="fas fa-clock"></i>
+                        <span>2h 30min • 130 km</span>
+                    </div>
+                    <div class="route-details">
+                        <div class="route-info">
+                            <div class="route-info-label">Departures</div>
+                            <div class="route-info-value">15+</div>
+                        </div>
+                        <div class="route-info">
+                            <div class="route-info-label">Available</div>
+                            <div class="route-info-value">Today</div>
+                        </div>
+                        <div class="route-info">
+                            <div class="route-info-label">Rating</div>
+                            <div class="route-info-value"><i class="fas fa-star" style="color: #f59e0b;"></i> 4.5</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="route-card" onclick="searchRoute('Jaipur', 'Udaipur')">
+                    <div class="route-card-header">
+                        <span class="route-name">Jaipur - Udaipur</span>
+                        <span class="route-price">From ₹350</span>
+                    </div>
+                    <div class="route-path">
+                        <i class="fas fa-clock"></i>
+                        <span>5h 30min • 250 km</span>
+                    </div>
+                    <div class="route-details">
+                        <div class="route-info">
+                            <div class="route-info-label">Departures</div>
+                            <div class="route-info-value">10+</div>
+                        </div>
+                        <div class="route-info">
+                            <div class="route-info-label">Available</div>
+                            <div class="route-info-value">Today</div>
+                        </div>
+                        <div class="route-info">
+                            <div class="route-info-label">Rating</div>
+                            <div class="route-info-value"><i class="fas fa-star" style="color: #f59e0b;"></i> 4.7</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="route-card" onclick="searchRoute('Jaipur', 'Jodhpur')">
+                    <div class="route-card-header">
+                        <span class="route-name">Jaipur - Jodhpur</span>
+                        <span class="route-price">From ₹280</span>
+                    </div>
+                    <div class="route-path">
+                        <i class="fas fa-clock"></i>
+                        <span>4h 30min • 190 km</span>
+                    </div>
+                    <div class="route-details">
+                        <div class="route-info">
+                            <div class="route-info-label">Departures</div>
+                            <div class="route-info-value">12+</div>
+                        </div>
+                        <div class="route-info">
+                            <div class="route-info-label">Available</div>
+                            <div class="route-info-value">Today</div>
+                        </div>
+                        <div class="route-info">
+                            <div class="route-info-label">Rating</div>
+                            <div class="route-info-value"><i class="fas fa-star" style="color: #f59e0b;"></i> 4.4</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="route-card" onclick="searchRoute('Jaipur', 'Kota')">
+                    <div class="route-card-header">
+                        <span class="route-name">Jaipur - Kota</span>
+                        <span class="route-price">From ₹200</span>
+                    </div>
+                    <div class="route-path">
+                        <i class="fas fa-clock"></i>
+                        <span>3h • 120 km</span>
+                    </div>
+                    <div class="route-details">
+                        <div class="route-info">
+                            <div class="route-info-label">Departures</div>
+                            <div class="route-info-value">18+</div>
+                        </div>
+                        <div class="route-info">
+                            <div class="route-info-label">Available</div>
+                            <div class="route-info-value">Today</div>
+                        </div>
+                        <div class="route-info">
+                            <div class="route-info-label">Rating</div>
+                            <div class="route-info-value"><i class="fas fa-star" style="color: #f59e0b;"></i> 4.3</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-ticket-alt"></i>
+                </div>
+                <h3 class="feature-title">Easy Booking</h3>
+                <p class="feature-desc">Book tickets in seconds with our simple and intuitive interface</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <h3 class="feature-title">Best Prices</h3>
+                <p class="feature-desc">Compare prices from multiple operators and get the best deals</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <h3 class="feature-title">Live Tracking</h3>
+                <p class="feature-desc">Track your bus in real-time and know exactly when it arrives</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3 class="feature-title">24/7 Support</h3>
+                <p class="feature-desc">Get help anytime with our round-the-clock customer support</p>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Ride Link</h3>
+                <p style="color: var(--text-light); margin-bottom: 1rem;">Your trusted partner for comfortable and affordable bus travel.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="/"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="/map"><i class="fas fa-chevron-right"></i> Map</a></li>
+                    <li><a href="/routes"><i class="fas fa-chevron-right"></i> Routes</a></li>
+                    <li><a href="/schedule"><i class="fas fa-chevron-right"></i> Schedule</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Jaipur, Rajasthan, India</a></li>
+                    <li><a href="#"><i class="fas fa-phone"></i> +91 98765 43210</a></li>
+                    <li><a href="#"><i class="fas fa-envelope"></i> support@ridelink.com</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Terms of Service</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Refund Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Ride Link. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Sign In</h2>
+                <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="loginAlert"></div>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="loginEmail" required placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="loginPassword" required placeholder="Enter your password">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="handleLogin()">Sign In</button>
+                <button class="btn btn-secondary" onclick="switchModal('loginModal', 'registerModal')">Register</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal-overlay" id="registerModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Create Account</h2>
+                <button class="modal-close" onclick="closeModal('registerModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="registerAlert"></div>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="registerName" required placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="registerEmail" required placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" id="registerPhone" required placeholder="Enter your phone">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="registerPassword" required placeholder="Create a password" minlength="6">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="handleRegister()">Create Account</button>
+                <button class="btn btn-secondary" onclick="switchModal('registerModal', 'loginModal')">Sign In</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const icon = themeToggle.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
+
+        // Check for stored user
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            
+            if (token && user.name) {
+                document.getElementById('loginBtn').style.display = 'none';
+                document.getElementById('userMenu').classList.add('show');
+                document.getElementById('userAvatar').textContent = user.name.split(' ').map(n => n[0]).join('').toUpperCase();
+            }
+        }
+
+        // User dropdown toggle
+        document.getElementById('userAvatar').addEventListener('click', () => {
+            document.getElementById('userDropdown').classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!document.getElementById('userMenu').contains(e.target)) {
+                document.getElementById('userDropdown').classList.remove('active');
+            }
+        });
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            document.getElementById('loginBtn').style.display = 'block';
+            document.getElementById('userMenu').classList.remove('show');
+            window.location.href = '/';
+        });
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function switchModal(fromModal, toModal) {
+            closeModal(fromModal);
+            setTimeout(() => openModal(toModal), 200);
+        }
+
+        // Login button click
+        document.getElementById('loginBtn').addEventListener('click', () => {
+            openModal('loginModal');
+        });
+
+        // Handle Login
+        async function handleLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const alertDiv = document.getElementById('loginAlert');
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data));
+                    closeModal('loginModal');
+                    checkAuth();
+                    alertDiv.innerHTML = '<div class="alert alert-success">Login successful!</div>';
+                } else {
+                    alertDiv.innerHTML = `<div class="alert alert-error">${data.message}</div>`;
+                }
+            } catch (error) {
+                alertDiv.innerHTML = '<div class="alert alert-error">Error connecting to server</div>';
+            }
+        }
+
+        // Handle Register
+        async function handleRegister() {
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const phone = document.getElementById('registerPhone').value;
+            const password = document.getElementById('registerPassword').value;
+            const alertDiv = document.getElementById('registerAlert');
+
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, phone, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data));
+                    closeModal('registerModal');
+                    checkAuth();
+                    alertDiv.innerHTML = '<div class="alert alert-success">Account created successfully!</div>';
+                } else {
+                    alertDiv.innerHTML = `<div class="alert alert-error">${data.message}</div>`;
+                }
+            } catch (error) {
+                alertDiv.innerHTML = '<div class="alert alert-error">Error connecting to server</div>';
+            }
+        }
+
+        // Load locations for autocomplete
+        async function loadLocations() {
+            try {
+                const response = await fetch('/api/rides');
+                const rides = await response.json();
+                
+                const locations = new Set();
+                rides.forEach(ride => {
+                    if (ride.start_point) locations.add(ride.start_point);
+                    if (ride.end_point) locations.add(ride.end_point);
+                });
+
+                const datalist = document.getElementById('locations');
+                datalist.innerHTML = Array.from(locations).map(loc => 
+                    `<option value="${loc}">`
+                ).join('');
+            } catch (error) {
+                console.error('Error loading locations:', error);
+            }
+        }
+
+        // Swap stations
+        const swapBtn = document.getElementById('swapBtn');
+        swapBtn.addEventListener('click', () => {
+            const fromInput = document.getElementById('fromInput');
+            const toInput = document.getElementById('toInput');
+            const temp = fromInput.value;
+            fromInput.value = toInput.value;
+            toInput.value = temp;
+        });
+
+        // Search Form Submit
+        const searchForm = document.getElementById('searchForm');
+        searchForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const from = document.getElementById('fromInput').value;
+            const to = document.getElementById('toInput').value;
+            const date = document.getElementById('dateInput').value;
+            const passengers = document.getElementById('passengers').value;
+            
+            if (from && to && date) {
+                // Show loading
+                const searchBtn = document.getElementById('searchBtn');
+                searchBtn.classList.add('loading');
+                searchBtn.disabled = true;
+
+                // Build query params
+                const params = new URLSearchParams({
+                    startPoint: from,
+                    endPoint: to,
+                    date: date,
+                    passengers: passengers
+                });
+
+                // Redirect to search results page
+                window.location.href = `/search-results.html?${params.toString()}`;
+            }
+        });
+
+        // Search Route from Cards
+        function searchRoute(from, to) {
+            document.getElementById('fromInput').value = from;
+            document.getElementById('toInput').value = to;
+            document.getElementById('dateInput').value = new Date().toISOString().split('T')[0];
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Set default date to today
+        document.getElementById('dateInput').value = new Date().toISOString().split('T')[0];
+        document.getElementById('dateInput').min = new Date().toISOString().split('T')[0];
+
+        // Initialize
+        checkAuth();
+        loadLocations();
+    </script>
+</body>
+</html>
+

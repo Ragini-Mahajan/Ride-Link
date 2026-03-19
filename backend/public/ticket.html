@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed - Ride Link</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --bg: #f9fafb;
+            --card-bg: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --shadow-hover: rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--card-bg);
+            box-shadow: 0 4px 12px var(--shadow);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-size: 1.8rem;
+        }
+
+        /* Success Banner */
+        .success-banner {
+            background: linear-gradient(135deg, #10b981, #059669);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2.5rem;
+            color: #10b981;
+        }
+
+        .success-banner h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .success-banner p {
+            opacity: 0.9;
+        }
+
+        /* Ticket Card */
+        .ticket-container {
+            max-width: 800px;
+            margin: -40px auto 2rem;
+            padding: 0 1rem;
+        }
+
+        .ticket-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px var(--shadow);
+            overflow: hidden;
+        }
+
+        /* Ticket Header */
+        .ticket-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 1.5rem;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ticket-type {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .ticket-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* Bus Info */
+        .bus-info {
+            padding: 1.5rem;
+            border-bottom: 2px dashed #e5e7eb;
+        }
+
+        .bus-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .bus-type {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Journey Details */
+        .journey-details {
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 1rem;
+            align-items: center;
+            border-bottom: 2px dashed #e5e7eb;
+        }
+
+        .journey-point {
+            text-align: center;
+        }
+
+        .journey-time {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .journey-label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        .journey-location {
+            font-weight: 600;
+        }
+
+        .journey-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--primary);
+        }
+
+        .journey-arrow i {
+            font-size: 1.5rem;
+        }
+
+        .journey-arrow span {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        /* Passenger Info */
+        .passenger-section {
+            padding: 1.5rem;
+            border-bottom: 2px dashed #e5e7eb;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .passenger-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .passenger-item {
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: 10px;
+        }
+
+        .passenger-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .passenger-detail {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .seat-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        /* Fare Details */
+        .fare-section {
+            padding: 1.5rem;
+            background: var(--bg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .fare-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .fare-amount {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Important Info */
+        .info-section {
+            padding: 1.5rem;
+            border-top: 1px solid var(--shadow);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .info-content h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-content p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* Actions */
+        .actions {
+            padding: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--bg);
+            color: var(--text);
+            border: 2px solid var(--shadow);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--card-bg);
+            padding: 2rem 1rem;
+            box-shadow: 0 -5px 20px var(--shadow);
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .journey-details {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .journey-arrow {
+                transform: rotate(90deg);
+                padding: 1rem 0;
+            }
+            
+            .ticket-number {
+                font-size: 1.2rem;
+            }
+            
+            .journey-time {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">
+                <i class="fas fa-bus"></i>
+                <span>Ride Link</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Success Banner -->
+    <div class="success-banner">
+        <div class="success-icon">
+            <i class="fas fa-check"></i>
+        </div>
+        <h1>Booking Confirmed!</h1>
+        <p>Your ticket has been booked successfully. Have a safe journey!</p>
+    </div>
+
+    <!-- Ticket Card -->
+    <div class="ticket-container">
+        <div class="ticket-card">
+            <!-- Ticket Header -->
+            <div class="ticket-header">
+                <div>
+                    <div class="ticket-type">Bus Ticket</div>
+                    <div class="ticket-number" id="ticketNumber">RL000000</div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 0.8rem; opacity: 0.8;">Travel Date</div>
+                    <div style="font-weight: 600;" id="travelDate">--</div>
+                </div>
+            </div>
+
+            <!-- Bus Info -->
+            <div class="bus-info">
+                <div class="bus-name" id="busName">Express Bus</div>
+                <div class="bus-type" id="busType">AC Sleeper • City Transport</div>
+            </div>
+
+            <!-- Journey Details -->
+            <div class="journey-details">
+                <div class="journey-point">
+                    <div class="journey-time" id="departureTime">--:--</div>
+                    <div class="journey-label">Departure</div>
+                    <div class="journey-location" id="boardingPoint">Boarding Point</div>
+                </div>
+                <div class="journey-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                    <span id="journeyDuration">0h 0m</span>
+                </div>
+                <div class="journey-point">
+                    <div class="journey-time" id="arrivalTime">--:--</div>
+                    <div class="journey-label">Arrival</div>
+                    <div class="journey-location" id="droppingPoint">Dropping Point</div>
+                </div>
+            </div>
+
+            <!-- Passenger Info -->
+            <div class="passenger-section">
+                <div class="section-title">Passenger Details</div>
+                <div class="passenger-list" id="passengerList">
+                    <!-- Passenger items will be added here -->
+                </div>
+            </div>
+
+            <!-- Fare -->
+            <div class="fare-section">
+                <div>
+                    <div class="fare-label">Total Fare Paid</div>
+                    <div style="font-size: 0.8rem; color: #10b981;">
+                        <i class="fas fa-check-circle"></i> Payment Successful
+                    </div>
+                </div>
+                <div class="fare-amount" id="totalFare">₹0</div>
+            </div>
+
+            <!-- Important Info -->
+            <div class="info-section">
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="info-content">
+                        <h4>Important Instructions</h4>
+                        <p>Please carry a valid ID proof along with this ticket. Board the bus 15 minutes before departure time.</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="info-content">
+                        <h4>Need Help?</h4>
+                        <p>Contact us at +91 98765 43210 or email support@ridelink.com</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="actions">
+                <button class="btn btn-primary" onclick="downloadTicket()">
+                    <i class="fas fa-download"></i> Download Ticket
+                </button>
+                <button class="btn btn-secondary" onclick="printTicket()">
+                    <i class="fas fa-print"></i> Print
+                </button>
+                <button class="btn btn-secondary" onclick="window.location.href='/'">
+                    <i class="fas fa-home"></i> Go Home
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Ride Link. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadBookingDetails();
+        });
+
+        // Load booking details
+        function loadBookingDetails() {
+            // Try to get from localStorage
+            let booking = JSON.parse(localStorage.getItem('lastBooking'));
+            
+            // If not in localStorage, try URL params
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookingId = urlParams.get('bookingId');
+            
+            if (!booking && bookingId) {
+                // Fetch from API if logged in
+                const token = localStorage.getItem('token');
+                if (token) {
+                    fetchBookingFromAPI(bookingId, token);
+                }
+            }
+            
+            if (booking) {
+                displayTicket(booking);
+            } else {
+                // Show demo data
+                displayDemoTicket();
+            }
+        }
+
+        // Fetch booking from API
+        async function fetchBookingFromAPI(bookingId, token) {
+            try {
+                const response = await fetch(`/api/bookings/${bookingId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const booking = await response.json();
+                    localStorage.setItem('lastBooking', JSON.stringify(booking));
+                    displayTicket(booking);
+                }
+            } catch (error) {
+                console.error('Error fetching booking:', error);
+                displayDemoTicket();
+            }
+        }
+
+        // Display ticket
+        function displayTicket(booking) {
+            document.getElementById('ticketNumber').textContent = booking.ticketNumber || 'RL000000';
+            document.getElementById('travelDate').textContent = formatDate(booking.travelDate);
+            document.getElementById('busName').textContent = `${booking.routeNumber || 'Express'} - ${booking.routeName || 'Bus Service'}`;
+            document.getElementById('busType').textContent = `${booking.busType || 'AC'} • ${booking.operator || 'City Transport'}`;
+            document.getElementById('departureTime').textContent = booking.departureTime || '--:--';
+            document.getElementById('arrivalTime').textContent = booking.arrivalTime || '--:--';
+            document.getElementById('boardingPoint').textContent = booking.boardingPoint || 'Start Point';
+            document.getElementById('droppingPoint').textContent = booking.droppingPoint || 'End Point';
+            document.getElementById('totalFare').textContent = `₹${booking.finalFare || booking.totalFare || 0}`;
+            
+            // Display passengers
+            const passengerList = document.getElementById('passengerList');
+            const passengers = booking.passengers || [];
+            
+            if (passengers.length > 0) {
+                passengerList.innerHTML = passengers.map((p, i) => `
+                    <div class="passenger-item">
+                        <div class="passenger-name">${p.name || `Passenger ${i + 1}`}</div>
+                        <div class="passenger-detail">Age: ${p.age || '-'}</div>
+                        <div class="passenger-detail">Gender: ${p.gender || '-'}</div>
+                        <span class="seat-badge">Seat ${p.seatNumber || (i + 1)}</span>
+                    </div>
+                `).join('');
+            } else {
+                passengerList.innerHTML = '<p>No passenger details available</p>';
+            }
+        }
+
+        // Display demo ticket
+        function displayDemoTicket() {
+            const demoData = {
+                ticketNumber: 'RL' + Date.now().toString().slice(-8),
+                travelDate: new Date().toISOString(),
+                routeNumber: 'AC 1',
+                routeName: 'Express Service',
+                busType: 'AC',
+                operator: 'City Transport',
+                departureTime: '10:00',
+                arrivalTime: '12:30',
+                boardingPoint: 'Sindhi Camp',
+                droppingPoint: 'Vaishali Nagar',
+                finalFare: 450,
+                passengers: [
+                    { name: 'John Doe', age: 25, gender: 'Male', seatNumber: '1A' },
+                    { name: 'Jane Doe', age: 24, gender: 'Female', seatNumber: '1B' }
+                ]
+            };
+            
+            displayTicket(demoData);
+        }
+
+        // Format date
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { 
+                weekday: 'short', 
+                month: 'short', 
+                day: 'numeric',
+                year: 'numeric'
+            });
+        }
+
+        // Download ticket
+        function downloadTicket() {
+            alert('Ticket downloaded! In a production app, this would generate a PDF file.');
+            // In production: Use libraries like jsPDF or html2pdf
+        }
+
+        // Print ticket
+        function printTicket() {
+            window.print();
+        }
+    </script>
+</body>
+</html>
+

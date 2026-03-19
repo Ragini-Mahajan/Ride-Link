@@ -1,0 +1,1792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Ride - Ride Link</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css" />
+    <!-- OpenRouteService API - Free routing service -->
+    <!-- No API key required for basic usage, but you can get one at https://openrouteservice.org/ for higher limits -->
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --bg: #f9fafb;
+            --card-bg: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --shadow-hover: rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+        }
+
+        .dark-mode {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #a78bfa;
+            --accent: #f472b6;
+            --text: #f3f4f6;
+            --text-light: #d1d5db;
+            --bg: #111827;
+            --card-bg: #1f2937;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --shadow-hover: rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: var(--transition);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+        }
+
+        /* Main Container */
+        .app-container {
+            display: flex;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Left Panel */
+        .ride-panel {
+            width: 400px;
+            background: var(--card-bg);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 5px 0 20px var(--shadow);
+            z-index: 1000;
+            position: relative;
+        }
+
+        .panel-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--shadow);
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        .panel-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        /* Search Section */
+        .search-section {
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .location-input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 1px solid var(--shadow);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+            background-color: var(--card-bg);
+            color: var(--text);
+        }
+
+        .location-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px var(--shadow);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        .input-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            background: white;
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .input-line {
+            position: absolute;
+            left: 17px;
+            top: 30px;
+            bottom: -20px;
+            width: 2px;
+            background: var(--shadow);
+            z-index: 0;
+        }
+
+        .pickup-input {
+            padding-left: 45px;
+        }
+
+        .destination-input {
+            padding-left: 45px;
+        }
+
+        /* Favorite Locations */
+        .favorites-section {
+            margin-top: 20px;
+        }
+
+        .section-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .favorite-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 8px;
+            background: var(--card-bg);
+        }
+
+        .favorite-item:hover {
+            background: var(--shadow);
+        }
+
+        .favorite-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--text-light);
+        }
+
+        .favorite-info {
+            flex: 1;
+        }
+
+        .favorite-name {
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        .favorite-address {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* Route Info */
+        .route-info {
+            background: linear-gradient(135deg, #1f7fcf 0%, #1555a0 100%);
+            border: 1px solid #1f7fcf;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 20px;
+            display: none;
+            color: white;
+            box-shadow: 0 2px 8px rgba(31, 127, 207, 0.2);
+        }
+
+        .route-info.active {
+            display: block;
+        }
+
+        .route-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .route-distance {
+            font-weight: 600;
+            color: white;
+        }
+
+        .route-time {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .route-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        /* Confirm Button */
+        .confirm-section {
+            padding: 20px;
+            border-top: 1px solid var(--shadow);
+        }
+
+        .confirm-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #1f7fcf 0%, #1555a0 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 2px 8px rgba(31, 127, 207, 0.2);
+        }
+
+        .confirm-btn:hover {
+            background: linear-gradient(135deg, #1555a0 0%, #0f3f7f 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(31, 127, 207, 0.3);
+        }
+
+        .confirm-btn:disabled {
+            background: var(--text-light);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Loader indicator for search button */
+        .loader {
+            border: 2px solid var(--card-bg);
+            border-top: 2px solid var(--primary);
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            animation: spin 0.8s linear infinite;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Map Container */
+        .map-container {
+            flex: 1;
+            position: relative;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Map Overlay Controls */
+        .map-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 500;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .map-control-btn {
+            width: 45px;
+            height: 45px;
+            background: var(--card-bg);
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 2px 10px var(--shadow);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .map-control-btn:hover {
+            background: var(--shadow);
+            color: var(--text);
+        }
+
+        /* Current Location Button */
+        .current-location-btn {
+            position: absolute;
+            bottom: 30px;
+            right: 20px;
+            z-index: 500;
+            padding: 12px 20px;
+            background: var(--card-bg);
+            border: none;
+            border-radius: 25px;
+            box-shadow: 0 2px 10px var(--shadow);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            color: var(--text);
+            transition: var(--transition);
+        }
+
+        .current-location-btn:hover {
+            background: var(--shadow);
+            transform: scale(1.05);
+        }
+
+        /* Driver Info Card */
+        .driver-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 2px 15px var(--shadow);
+            margin-top: 15px;
+            display: none;
+            color: var(--text);
+        }
+
+        .driver-card.active {
+            display: block;
+        }
+
+        .driver-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .driver-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 1.5rem;
+        }
+
+        .driver-info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .driver-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #fbbf24;
+            font-size: 0.9rem;
+        }
+
+        .vehicle-info {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 10px;
+            border-top: 1px solid var(--shadow);
+        }
+
+        .vehicle-detail {
+            text-align: center;
+        }
+
+        .vehicle-label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .vehicle-value {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .ride-panel {
+                width: 100%;
+                position: absolute;
+                bottom: 0;
+                height: 50vh;
+                border-radius: 20px 20px 0 0;
+            }
+
+            .map-container {
+                height: 50vh;
+            }
+
+            .app-container {
+                flex-direction: column;
+            }
+        }
+
+        /* Custom Route Line Styling - Bold and Highlighted */
+        .leaflet-interactive.route-line {
+            filter: drop-shadow(0 0 6px rgba(31, 127, 207, 0.6)) !important;
+            stroke-linecap: round !important;
+            stroke-linejoin: round !important;
+        }
+
+        .leaflet-interactive.route-shadow {
+            filter: blur(1px) !important;
+        }
+
+        .destination-marker {
+            background: #ea4335;  /* Google Maps red */
+            border: 3px solid white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            box-shadow: 0 2px 8px rgba(234, 67, 53, 0.4);
+        }
+
+        .stop-marker {
+            background: #fbbc04;  /* Google Maps yellow */
+            border: 2px solid white;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            box-shadow: 0 2px 6px rgba(251, 188, 4, 0.3);
+        }
+
+        /* Route Popup */
+        .route-popup {
+            padding: 5px;
+        }
+
+        .route-popup-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: var(--text);
+        }
+
+        .route-popup-detail {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* Search Suggestions Dropdown */
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--shadow);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .search-suggestions.active {
+            display: block;
+        }
+
+        .suggestion-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--shadow);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text);
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item:hover {
+            background: var(--shadow);
+        }
+
+        .suggestion-item.highlighted {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        .suggestion-icon {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .suggestion-text {
+            flex: 1;
+        }
+
+        .suggestion-name {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .suggestion-address {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 2px;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        /* Header & Navigation - Matching other pages */
+        header {
+            background-color: var(--card-bg);
+            box-shadow: 0 4px 12px var(--shadow);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo i {
+            color: var(--accent);
+            font-size: 1.8rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        nav a:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover:after {
+            width: 100%;
+        }
+
+        nav a.active:after {
+            width: 100%;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--shadow);
+            transform: rotate(30deg);
+        }
+
+        /* Footer - Matching other pages */
+        footer {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            box-shadow: 0 -5px 20px var(--shadow);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer-section h3 {
+            margin: 0;
+            position: relative;
+            padding-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin: 0;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 0.75rem;
+            margin: 0;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            background-color: var(--bg);
+            color: var(--text);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--shadow);
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-section {
+                flex-direction: column;
+            }
+            
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        /* Live Pulse Animation */
+        .live-pulse {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #10b981;
+            margin-right: 5px;
+            position: relative;
+        }
+
+        .live-pulse:before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            background-color: rgba(16, 185, 129, 0.4);
+            border-radius: 50%;
+            animation: pulseLive 1.5s infinite;
+        }
+
+        @keyframes pulseLive {
+            0% { transform: scale(0.5); opacity: 0.8; }
+            70% { transform: scale(2); opacity: 0; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="home.html" class="logo">
+            <i class="fas fa-bus"></i>
+            <span>Ride Link</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="map.html" class="active"><i class="fas fa-map-marked-alt"></i> Map</a></li>
+                <li><a href="routes.html"><i class="fas fa-route"></i> Routes</a></li>
+                <li><a href="schedule.html"><i class="fas fa-clock"></i> Schedule</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+            </ul>
+        </nav>
+        <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon"></i>
+        </button>
+    </header>
+
+    <div class="app-container">
+        <!-- Left Panel - Uber Style -->
+        <div class="ride-panel">
+            <div class="panel-header">
+                <button class="back-btn" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1 class="panel-title">Where to?</h1>
+            </div>
+
+            <div class="search-section">
+                <!-- Pickup Location -->
+                <div class="input-group">
+                    <div class="input-dot"></div>
+                    <div class="input-container">
+                        <input type="text" id="pickupInput" class="location-input pickup-input" placeholder="Pickup Location" autocomplete="off">
+                        <i class="fas fa-search input-icon"></i>
+                        <div class="search-suggestions" id="pickupSuggestions"></div>
+                    </div>
+                </div>
+
+                <!-- Destination -->
+                <div class="input-group">
+                    <div class="input-dot" style="background: #ef4444; border-color: #ef4444;"></div>
+                    <div class="input-container">
+                        <input type="text" id="destinationInput" class="location-input destination-input" placeholder="Enter destination" autocomplete="off">
+                        <i class="fas fa-map-marker-alt input-icon" style="color: #ef4444;"></i>
+                        <div class="search-suggestions" id="destinationSuggestions"></div>
+                    </div>
+                </div>
+
+                <!-- Route Info -->
+                <div class="route-info" id="routeInfo">
+                    <div class="route-header">
+                        <div>
+                            <div class="route-distance" id="routeDistance">0 km</div>
+                            <div class="route-time" id="routeTime">0 min</div>
+                        </div>
+                        <div class="route-price" id="routePrice">₹0</div>
+                    </div>
+                    <div style="font-size: 0.85rem; color: #15803d;">
+                        <i class="fas fa-route"></i> <span id="routeSource">Real-time Route</span>
+                    </div>
+                </div>
+
+                <!-- Favorite Locations -->
+                <div class="favorites-section">
+                    <div class="section-title">Recent</div>
+              
+                    <div class="favorite-item" onclick="selectFavorite('Sindhi Camp', 26.9239, 75.8047)">
+                        <div class="favorite-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <div class="favorite-info">
+                            <div class="favorite-name">Sindhi Camp</div>
+                            <div class="favorite-address">Bus Stand, Jaipur</div>
+                        </div>
+                    </div>
+
+                    <div class="favorite-item" onclick="selectFavorite('Vaishali Nagar', 26.8797, 75.7895)">
+                        <div class="favorite-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <div class="favorite-info">
+                            <div class="favorite-name">Vaishali Nagar</div>
+                            <div class="favorite-address">Residential Area, Jaipur</div>
+                        </div>
+                    </div>
+
+                    <div class="favorite-item" onclick="selectFavorite('Khatipura', 26.9344, 75.7689)">
+                        <div class="favorite-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <div class="favorite-info">
+                            <div class="favorite-name">Khatipura</div>
+                            <div class="favorite-address">Industrial Area, Jaipur</div>
+                        </div>
+                    </div>
+
+                    <div class="section-title" style="margin-top: 20px;">Favorites</div>
+
+                    <div class="favorite-item" onclick="selectFavorite('Home', 26.9124, 75.7873)">
+                        <div class="favorite-icon" style="background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%); color: white;">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="favorite-info">
+                            <div class="favorite-name">Home</div>
+                            <div class="favorite-address">MI Road, Jaipur</div>
+                        </div>
+                    </div>
+
+                    <div class="favorite-item" onclick="selectFavorite('Work', 26.8467, 75.8032)">
+                        <div class="favorite-icon" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white;">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="favorite-info">
+                            <div class="favorite-name">Work</div>
+                            <div class="favorite-address">C-Scheme, Jaipur</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Driver Card -->
+                <div class="driver-card" id="driverCard">
+                    <div class="driver-header">
+                        <div class="driver-image">🚗</div>
+                        <div class="driver-info">
+                            <h4>Rajesh Kumar</h4>
+                            <div class="driver-rating">
+                                <i class="fas fa-star"></i> 4.8
+                            </div>
+                        </div>
+                    </div>
+                    <div class="vehicle-info">
+                        <div class="vehicle-detail">
+                            <div class="vehicle-label">Vehicle</div>
+                            <div class="vehicle-value">Swift Dzire</div>
+                        </div>
+                        <div class="vehicle-detail">
+                            <div class="vehicle-label">Plate</div>
+                            <div class="vehicle-value">RJ 14 AB 1234</div>
+                        </div>
+                        <div class="vehicle-detail">
+                            <div class="vehicle-label">Time</div>
+                            <div class="vehicle-value">3 min</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="confirm-section">
+                <button class="confirm-btn" id="confirmBtn" disabled onclick="confirmRide()">
+                    Search
+                </button>
+            </div>
+        </div>
+
+        <!-- Map Container -->
+        <div class="map-container">
+            <div id="map"></div>
+            
+            <div class="map-controls">
+                <button class="map-control-btn" onclick="zoomIn()" title="Zoom In">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <button class="map-control-btn" onclick="zoomOut()" title="Zoom Out">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button class="map-control-btn" onclick="toggleMapType()" title="Toggle Map">
+                    <i class="fas fa-layer-group"></i>
+                </button>
+            </div>
+
+            <button class="current-location-btn" onclick="getCurrentLocation()">
+                <i class="fas fa-crosshairs"></i>
+                Current Location
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Map - Jaipur City
+        const map = L.map('map').setView([26.9124, 75.7873], 13);
+
+        // Tile Layers
+        const streetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        const satelliteMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: '&copy; Esri'
+        });
+
+        let isSatellite = false;
+
+        // Route polyline reference
+        let routeLine = null;
+        let pickupMarker = null;
+        let destinationMarker = null;
+        let waypointMarkers = [];
+
+        // Jaipur landmarks with coordinates
+        const jaipurLocations = {
+            'Sindhi Camp': { lat: 26.9239, lng: 75.8047 },
+            'Vaishali Nagar': { lat: 26.8797, lng: 75.7895 },
+            'Khatipura': { lat: 26.9344, lng: 75.7689 },
+            'MI Road': { lat: 26.9124, lng: 75.7873 },
+            'C-Scheme': { lat: 26.8467, lng: 75.8032 },
+            'Pink City': { lat: 26.9254, lng: 75.8236 },
+            'Hawa Mahal': { lat: 26.9259, lng: 75.8265 },
+            'City Palace': { lat: 26.9244, lng: 75.8205 },
+            'Jal Mahal': { lat: 26.9534, lng: 75.8352 },
+            'Amer Fort': { lat: 26.9855, lng: 75.8513 },
+            'Albert Hall': { lat: 26.9246, lng: 75.8088 },
+            'Birla Mandir': { lat: 26.9117, lng: 75.7757 },
+            'Gandhi Nagar': { lat: 26.8523, lng: 75.8113 },
+            'Sanganer': { lat: 26.8413, lng: 75.8021 },
+            'Vidyadhar Nagar': { lat: 26.9547, lng: 75.7523 },
+            'Ajmer Road': { lat: 26.9047, lng: 75.7456 },
+            'Sirsi': { lat: 26.8897, lng: 75.7645 },
+            'Bani Park': { lat: 26.9089, lng: 75.7734 },
+            'Shastri Nagar': { lat: 26.9123, lng: 75.7612 },
+            'Murlipura': { lat: 26.9234, lng: 75.7567 }
+        };
+
+        // Pre-defined route between popular locations (with realistic waypoints)
+        const predefinedRoutes = {
+            'Sindhi_Camp-Vaishali_Nagar': [
+                [26.9239, 75.8047],  // Sindhi Camp
+                [26.9220, 75.8040],
+                [26.9200, 75.8035],
+                [26.9180, 75.8025],
+                [26.9160, 75.8010],
+                [26.9140, 75.7995],
+                [26.9120, 75.7980],
+                [26.9100, 75.7960],
+                [26.9080, 75.7940],
+                [26.9060, 75.7920],
+                [26.9040, 75.7910],
+                [26.8980, 75.7890],
+                [26.8920, 75.7895],
+                [26.8860, 75.7890],
+                [26.8820, 75.7895],
+                [26.8797, 75.7895]   // Vaishali Nagar
+            ],
+            'Sindhi_Camp-Khatipura': [
+                [26.9239, 75.8047],  // Sindhi Camp
+                [26.9250, 75.8020],
+                [26.9260, 75.7980],
+                [26.9270, 75.7940],
+                [26.9280, 75.7900],
+                [26.9290, 75.7850],
+                [26.9300, 75.7800],
+                [26.9310, 75.7750],
+                [26.9320, 75.7720],
+                [26.9330, 75.7700],
+                [26.9344, 75.7689]   // Khatipura
+            ],
+            'Vaishali_Nagar-Khatipura': [
+                [26.8797, 75.7895],  // Vaishali Nagar
+                [26.8850, 75.7880],
+                [26.8900, 75.7870],
+                [26.8950, 75.7850],
+                [26.9000, 75.7830],
+                [26.9050, 75.7810],
+                [26.9100, 75.7790],
+                [26.9150, 75.7750],
+                [26.9200, 75.7720],
+                [26.9250, 75.7700],
+                [26.9300, 75.7695],
+                [26.9344, 75.7689]   // Khatipura
+            ],
+            'MI_Road-Pink_City': [
+                [26.9124, 75.7873],  // MI Road
+                [26.9130, 75.7900],
+                [26.9140, 75.7930],
+                [26.9155, 75.7960],
+                [26.9170, 75.7990],
+                [26.9185, 75.8020],
+                [26.9200, 75.8050],
+                [26.9215, 75.8080],
+                [26.9230, 75.8110],
+                [26.9245, 75.8150],
+                [26.9254, 75.8236]   // Pink City
+            ],
+            'Home-Work': [
+                [26.9124, 75.7873],  // Home (MI Road)
+                [26.9100, 75.7890],
+                [26.9070, 75.7910],
+                [26.8980, 75.7940],
+                [26.8920, 75.7970],
+                [26.8850, 75.7990],
+                [26.8750, 75.8010],
+                [26.8650, 75.8020],
+                [26.8550, 75.8025],
+                [26.8490, 75.8028],
+                [26.8467, 75.8032]   // Work (C-Scheme)
+            ],
+            'Hawa_Mahal-Amer_Fort': [
+                [26.9259, 75.8265],  // Hawa Mahal
+                [26.9300, 75.8300],
+                [26.9350, 75.8320],
+                [26.9400, 75.8330],
+                [26.9500, 75.8340],
+                [26.9600, 75.8350],
+                [26.9700, 75.8380],
+                [26.9760, 75.8420],
+                [26.9800, 75.8450],
+                [26.9850, 75.8500],
+                [26.9855, 75.8513]   // Amer Fort
+            ],
+            'City_Palace-Albert_Hall': [
+                [26.9244, 75.8205],  // City Palace
+                [26.9240, 75.8180],
+                [26.9235, 75.8150],
+                [26.9230, 75.8120],
+                [26.9230, 75.8100],
+                [26.9240, 75.8090],
+                [26.9246, 75.8088]   // Albert Hall
+            ],
+            'Jal_Mahal-Amer_Fort': [
+                [26.9534, 75.8352],  // Jal Mahal
+                [26.9600, 75.8400],
+                [26.9680, 75.8430],
+                [26.9750, 75.8460],
+                [26.9820, 75.8485],
+                [26.9855, 75.8513]   // Amer Fort
+            ],
+            'Birla_Mandir-Jal_Mahal': [
+                [26.9117, 75.7757],  // Birla Mandir
+                [26.9200, 75.7800],
+                [26.9300, 75.7850],
+                [26.9400, 75.7900],
+                [26.9450, 75.8050],
+                [26.9500, 75.8200],
+                [26.9534, 75.8352]   // Jal Mahal
+            ],
+            'Gandhi_Nagar-Sanganer': [
+                [26.8523, 75.8113],  // Gandhi Nagar
+                [26.8470, 75.8080],
+                [26.8420, 75.8050],
+                [26.8370, 75.8030],
+                [26.8420, 75.8020],
+                [26.8413, 75.8021]   // Sanganer
+            ]
+        };
+
+        // Current pickup and destination
+        let currentPickup = null;
+        let currentDestination = null;
+
+        // utility: normalize location names for routing keys
+        function normalizeName(name) {
+            return name.replace(/\s+/g, '_');
+        }
+
+        // Set current location as default pickup
+        function initMap() {
+            // Try to get user's current location
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const { latitude, longitude } = position.coords;
+                        map.setView([latitude, longitude], 14);
+                        setPickup(latitude, longitude, 'Current Location');
+                    },
+                    () => {
+                        // Default to Jaipur if location not available
+                        map.setView([26.9124, 75.7873], 13);
+                        setPickup(26.9124, 75.7873, 'Jaipur Center');
+                    }
+                );
+            } else {
+                // Default to Jaipur if geolocation not supported
+                map.setView([26.9124, 75.7873], 13);
+                setPickup(26.9124, 75.7873, 'Jaipur Center');
+            }
+        }
+
+        // Set pickup location
+        function setPickup(lat, lng, name) {
+            currentPickup = { lat, lng, name };
+            
+            if (pickupMarker) {
+                pickupMarker.setLatLng([lat, lng]);
+            } else {
+                pickupMarker = L.marker([lat, lng], {
+                    icon: L.divIcon({
+                        className: 'pickup-marker',
+                        iconSize: [20, 20],
+                        iconAnchor: [10, 10]
+                    })
+                }).addTo(map);
+                pickupMarker.bindPopup('Pickup Location').openPopup();
+            }
+
+            updateRoute();
+        }
+
+        // Set destination
+        function setDestination(lat, lng, name) {
+            currentDestination = { lat, lng, name };
+            
+            if (destinationMarker) {
+                destinationMarker.setLatLng([lat, lng]);
+            } else {
+                destinationMarker = L.marker([lat, lng], {
+                    icon: L.divIcon({
+                        className: 'destination-marker',
+                        iconSize: [20, 20],
+                        iconAnchor: [10, 10]
+                    })
+                }).addTo(map);
+                destinationMarker.bindPopup('Destination: ' + name).openPopup();
+            }
+
+            updateRoute();
+        }
+
+        // Calculate distance between two points using Haversine formula (straight line)
+        function calculateDistance(lat1, lng1, lat2, lng2) {
+            const R = 6371; // Earth's radius in km
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLng = (lng2 - lng1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLng/2) * Math.sin(dLng/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        // Calculate actual route distance along polyline
+        function calculateRouteDistance(coordinates) {
+            let totalDistance = 0;
+            for (let i = 0; i < coordinates.length - 1; i++) {
+                const dist = calculateDistance(
+                    coordinates[i][0], coordinates[i][1],
+                    coordinates[i+1][0], coordinates[i+1][1]
+                );
+                totalDistance += dist;
+            }
+            // Add 10-15% to account for actual road curvature and traffic
+            return totalDistance * 1.12;
+        }
+
+        // OpenRouteService Directions API
+        const ORS_API_URL = 'https://api.openrouteservice.org/v2/directions/driving-car';
+
+        // Get route from OpenRouteService (free alternative to Google Maps)
+        async function getOpenRouteServiceRoute(origin, destination, callback) {
+            try {
+                const coordinates = [[origin.lng, origin.lat], [destination.lng, destination.lat]];
+
+                const response = await fetch(ORS_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // No API key needed for basic usage, but you can add one for higher limits
+                        // 'Authorization': 'YOUR_ORS_API_KEY'
+                    },
+                    body: JSON.stringify({
+                        coordinates: coordinates,
+                        format: 'geojson',
+                        instructions: false,
+                        geometry_simplify: false
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+
+                    if (data.features && data.features.length > 0) {
+                        const route = data.features[0];
+                        const coordinates = route.geometry.coordinates.map(coord => [coord[1], coord[0]]); // Convert to [lat, lng]
+
+                        // Calculate distance and duration
+                        const distance = route.properties.segments[0].distance / 1000; // Convert to km
+                        const duration = Math.round(route.properties.segments[0].duration / 60); // Convert to minutes
+
+                        console.log('✅ OpenRouteService route loaded:', distance + 'km', duration + 'min');
+                        callback({
+                            coordinates: coordinates,
+                            distance: distance,
+                            duration: duration,
+                            orsRoute: route
+                        });
+                    } else {
+                        console.log('❌ OpenRouteService returned no routes');
+                        callback(null);
+                    }
+                } else {
+                    console.log('❌ OpenRouteService API error:', response.status);
+                    callback(null);
+                }
+            } catch (error) {
+                console.log('❌ OpenRouteService request failed:', error.message);
+                callback(null);
+            }
+        }
+
+        // Update route on map
+        function updateRoute() {
+            // Show loading state
+            document.getElementById('routeSource').textContent = 'Calculating route...';
+            document.getElementById('confirmBtn').disabled = true;
+            document.getElementById('confirmBtn').textContent = 'Loading...';
+
+            // Clear existing route
+            if (routeLine) {
+                map.removeLayer(routeLine);
+            }
+            
+            // Clear waypoint markers
+            waypointMarkers.forEach(marker => map.removeLayer(marker));
+            waypointMarkers = [];
+
+            if (!currentPickup || !currentDestination) {
+                document.getElementById('routeInfo').classList.remove('active');
+                document.getElementById('confirmBtn').disabled = true;
+                return;
+            }
+
+            // Get route coordinates - Try OpenRouteService first, then fallback to predefined routes
+            let routeCoords;
+            let routeDistance = 0;
+            let routeDuration = 0;
+
+            // Try OpenRouteService routing first (free API)
+            getOpenRouteServiceRoute(currentPickup, currentDestination, (orsRoute) => {
+                if (orsRoute) {
+                    // Use OpenRouteService route
+                    routeCoords = orsRoute.coordinates;
+                    routeDistance = orsRoute.distance;
+                    routeDuration = orsRoute.duration;
+
+                    console.log('Using OpenRouteService route:', routeDistance + 'km', routeDuration + 'min');
+                } else {
+                    // Fallback to predefined routes or calculated routes
+                    const routeKey = normalizeName(currentPickup.name) + '-' + normalizeName(currentDestination.name);
+                    const reverseKey = normalizeName(currentDestination.name) + '-' + normalizeName(currentPickup.name);
+                    
+                    if (predefinedRoutes[routeKey]) {
+                        routeCoords = predefinedRoutes[routeKey];
+                    } else if (predefinedRoutes[reverseKey]) {
+                        routeCoords = [...predefinedRoutes[reverseKey]].reverse();
+                    } else {
+                        // Create a realistic curved route with intermediate waypoints
+                        const startLat = currentPickup.lat;
+                        const startLng = currentPickup.lng;
+                        const endLat = currentDestination.lat;
+                        const endLng = currentDestination.lng;
+                        
+                        // Calculate midpoint and offset for curve
+                        const midLat = (startLat + endLat) / 2;
+                        const midLng = (startLng + endLng) / 2;
+                        
+                        // Calculate perpendicular offset (creates a natural curve)
+                        const dLat = endLat - startLat;
+                        const dLng = endLng - startLng;
+                        const distance = Math.sqrt(dLat * dLat + dLng * dLng);
+                        const offset = distance * 0.15; // 15% curve offset
+                        
+                        // Create curve by adding waypoints
+                        routeCoords = [
+                            [startLat, startLng],
+                            [startLat + (dLat * 0.25), startLng + (dLng * 0.25) + offset * 0.5],
+                            [midLat, midLng + offset],
+                            [startLat + (dLat * 0.75), startLng + (dLng * 0.75) + offset * 0.5],
+                            [endLat, endLng]
+                        ];
+                    }
+                    
+                    // Calculate distance for fallback routes
+                    routeDistance = calculateRouteDistance(routeCoords);
+                    routeDuration = Math.round((routeDistance / 25) * 60); // 25 km/h average speed
+                }
+                
+                // Draw the route on map
+                drawRouteOnMap(routeCoords, routeDistance, routeDuration);
+            });
+        }
+
+        // Function to draw route on Leaflet map
+        function drawRouteOnMap(routeCoords, distance, duration) {
+            // Clear existing route
+            if (routeLine) {
+                map.removeLayer(routeLine);
+            }
+            
+            // Clear waypoint markers
+            waypointMarkers.forEach(marker => map.removeLayer(marker));
+            waypointMarkers = [];
+
+            // Draw the bold route line (Google Maps style - blue, highlighted)
+            const googleMapsBlue = '#1f7fcf'; // Google Maps blue color
+            routeLine = L.polyline(routeCoords, {
+                color: googleMapsBlue,
+                weight: 8,          // Increased weight for bold, highlighted appearance
+                opacity: 1.0,       // Full opacity for maximum visibility
+                lineCap: 'round',
+                lineJoin: 'round',
+                dashArray: null,    // Solid line (no dashes)
+                className: 'route-line'  // Add CSS class for additional styling
+            }).addTo(map);
+
+            // Add a stronger shadow effect for better highlighting
+            L.polyline(routeCoords, {
+                color: '#ffffff',
+                weight: 12,         // Wider shadow for better contrast
+                opacity: 0.3,       // More visible shadow
+                lineCap: 'round',
+                lineJoin: 'round',
+                dashArray: null,
+                className: 'route-shadow'  // Add CSS class for shadow effect
+            }).addTo(map);
+
+            // Add waypoint markers along the route (only for non-Google routes)
+            if (routeCoords.length > 2 && routeCoords.length <= 5) { // Only add waypoints for calculated routes
+                for (let i = 1; i < routeCoords.length - 1; i++) {
+                    const waypointMarker = L.marker(routeCoords[i], {
+                        icon: L.divIcon({
+                            className: 'stop-marker',
+                            iconSize: [14, 14],
+                            iconAnchor: [7, 7]
+                        })
+                    }).addTo(map);
+                    waypointMarkers.push(waypointMarker);
+                }
+            }
+
+            // Fit map to show entire route
+            map.fitBounds(routeLine.getBounds(), { padding: [50, 50] });
+
+            // Calculate fare (base fare + per km)
+            const baseFare = 25;
+            const perKmFare = 8;
+            const fare = Math.round(baseFare + (distance * perKmFare));
+
+            // Update route info
+            document.getElementById('routeDistance').textContent = distance.toFixed(2) + ' km';
+            document.getElementById('routeTime').textContent = duration + ' min';
+            document.getElementById('routePrice').textContent = '₹' + fare;
+            document.getElementById('routeInfo').classList.add('active');
+
+            // Update route source indicator
+            const routeSource = routeCoords.length > 10 ? 'OpenRouteService' : 'Calculated Route';
+            document.getElementById('routeSource').textContent = routeSource;
+
+            document.getElementById('confirmBtn').disabled = false;
+            document.getElementById('confirmBtn').textContent = 'Search';
+        }
+
+        // Select favorite location
+        function selectFavorite(name, lat, lng) {
+            const destinationInput = document.getElementById('destinationInput');
+            destinationInput.value = name;
+            setDestination(lat, lng, name);
+            closeSuggestions('destinationSuggestions');
+            
+            // Focus on destination
+            destinationInput.focus();
+        }
+
+        // Show search suggestions
+        function showSuggestions(inputId, suggestionsId, value) {
+            const suggestionsContainer = document.getElementById(suggestionsId);
+            const filtered = Object.entries(jaipurLocations).filter(([name]) =>
+                name.toLowerCase().includes(value.toLowerCase())
+            );
+
+            if (value.trim() === '' || filtered.length === 0) {
+                suggestionsContainer.classList.remove('active');
+                return;
+            }
+
+            suggestionsContainer.innerHTML = filtered.map(([name, coords]) => `
+                <div class="suggestion-item" onclick="selectSuggestion('${name}', ${coords.lat}, ${coords.lng}, '${inputId}', '${suggestionsId}')">
+                    <div class="suggestion-icon">
+                        <i class="fas fa-map-pin"></i>
+                    </div>
+                    <div class="suggestion-text">
+                        <div class="suggestion-name">${name}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            suggestionsContainer.classList.add('active');
+        }
+
+        // Close suggestions
+        function closeSuggestions(suggestionsId) {
+            document.getElementById(suggestionsId).classList.remove('active');
+        }
+
+        // Select a suggestion
+        function selectSuggestion(name, lat, lng, inputId, suggestionsId) {
+            const input = document.getElementById(inputId);
+            input.value = name;
+            closeSuggestions(suggestionsId);
+
+            if (inputId === 'pickupInput') {
+                setPickup(lat, lng, name);
+            } else {
+                setDestination(lat, lng, name);
+            }
+        }
+
+        // Destination input handler with real-time suggestions
+        document.getElementById('destinationInput').addEventListener('input', function(e) {
+            const value = e.target.value;
+            if (value.trim()) {
+                showSuggestions('destinationInput', 'destinationSuggestions', value);
+            } else {
+                closeSuggestions('destinationSuggestions');
+            }
+        });
+
+        document.getElementById('destinationInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const value = e.target.value;
+                
+                // Check exact match first
+                if (jaipurLocations[value]) {
+                    const coords = jaipurLocations[value];
+                    selectSuggestion(value, coords.lat, coords.lng, 'destinationInput', 'destinationSuggestions');
+                } else {
+                    // Search for partial match
+                    for (const [name, coords] of Object.entries(jaipurLocations)) {
+                        if (name.toLowerCase().includes(value.toLowerCase())) {
+                            selectSuggestion(name, coords.lat, coords.lng, 'destinationInput', 'destinationSuggestions');
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+
+        // Pickup input handler with real-time suggestions
+        document.getElementById('pickupInput').addEventListener('input', function(e) {
+            const value = e.target.value;
+            if (value.trim()) {
+                showSuggestions('pickupInput', 'pickupSuggestions', value);
+            } else {
+                closeSuggestions('pickupSuggestions');
+            }
+        });
+
+        document.getElementById('pickupInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const value = e.target.value;
+                
+                if (jaipurLocations[value]) {
+                    const coords = jaipurLocations[value];
+                    selectSuggestion(value, coords.lat, coords.lng, 'pickupInput', 'pickupSuggestions');
+                } else {
+                    for (const [name, coords] of Object.entries(jaipurLocations)) {
+                        if (name.toLowerCase().includes(value.toLowerCase())) {
+                            selectSuggestion(name, coords.lat, coords.lng, 'pickupInput', 'pickupSuggestions');
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+
+        // Close suggestions when clicking outside
+        document.addEventListener('click', function(e) {
+            const pickupInput = document.getElementById('pickupInput');
+            const destinationInput = document.getElementById('destinationInput');
+            const pickupSuggestions = document.getElementById('pickupSuggestions');
+            const destinationSuggestions = document.getElementById('destinationSuggestions');
+
+            if (!pickupInput.contains(e.target) && !pickupSuggestions.contains(e.target)) {
+                closeSuggestions('pickupSuggestions');
+            }
+
+            if (!destinationInput.contains(e.target) && !destinationSuggestions.contains(e.target)) {
+                closeSuggestions('destinationSuggestions');
+            }
+        });
+
+        // Map controls
+        function zoomIn() {
+            map.zoomIn();
+        }
+
+        function zoomOut() {
+            map.zoomOut();
+        }
+
+        function toggleMapType() {
+            if (isSatellite) {
+                map.removeLayer(satelliteMap);
+                streetMap.addTo(map);
+            } else {
+                map.removeLayer(streetMap);
+                satelliteMap.addTo(map);
+            }
+            isSatellite = !isSatellite;
+        }
+
+        function getCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const { latitude, longitude } = position.coords;
+                        map.setView([latitude, longitude], 15);
+                        setPickup(latitude, longitude, 'Current Location');
+                        document.getElementById('pickupInput').value = 'Current Location';
+                    },
+                    (error) => {
+                        alert('Unable to get your location. Please check your browser settings.');
+                    }
+                );
+            } else {
+                alert('Geolocation is not supported by your browser.');
+            }
+        }
+
+        // Search for rides dynamically
+        async function confirmRide() {
+            if (currentPickup && currentDestination) {
+                const searchBtn = document.getElementById('confirmBtn');
+                const originalText = searchBtn.innerHTML;
+                searchBtn.innerHTML = '<span class="loader"></span> Searching...';
+                searchBtn.disabled = true;
+
+                try {
+                    // Build query parameters
+                    const params = new URLSearchParams({
+                        startPoint: currentPickup.name,
+                        endPoint: currentDestination.name,
+                        city: 'Jaipur' // Default city
+                    });
+
+                    const response = await fetch(`/api/rides/search?${params}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Server responded with ${response.status}`);
+                    }
+
+                    const result = await response.json();
+
+                    // Support both { data: [...] } and direct array responses
+                    const payload = result.data || result;
+                    if (Array.isArray(payload) && payload.length > 0) {
+                        displaySearchResults(payload);
+                    } else {
+                        displayNoResults();
+                    }
+                } catch (error) {
+                    console.error('Search error:', error);
+                    alert('Error searching for rides. Please try again.');
+                } finally {
+                    searchBtn.innerHTML = originalText;
+                    searchBtn.disabled = false;
+                }
+            }
+        }
+
+        // Display search results
+        function displaySearchResults(rides) {
+            const driverCard = document.getElementById('driverCard');
+            const ride = rides[0]; // Show first result
+
+            driverCard.innerHTML = `
+                <div class="driver-header">
+                    <div class="driver-image"><i class="fas fa-bus"></i></div>
+                    <div class="driver-info">
+                        <h4>${ride.route_number || ('Route ' + (ride.route_name || ''))}</h4>
+                        <div class="driver-rating">
+                            <i class="fas fa-route"></i> ${ride.route_name || 'Public Transport'}
+                        </div>
+                    </div>
+                </div>
+                <div class="vehicle-info">
+                    <div class="vehicle-detail">
+                        <div class="vehicle-label">From</div>
+                        <div class="vehicle-value">${ride.start_point || currentPickup.name}</div>
+                    </div>
+                    <div class="vehicle-detail">
+                        <div class="vehicle-label">To</div>
+                        <div class="vehicle-value">${ride.end_point || currentDestination.name}</div>
+                    </div>
+                    <div class="vehicle-detail">
+                        <div class="vehicle-label">Type</div>
+                        <div class="vehicle-value">${ride.bus_type || 'Standard'}</div>
+                    </div>
+                </div>
+                <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--shadow);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 0.85rem; color: var(--text-light);">${rides.length} ride(s) available</span>
+                        <button style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 500;" onclick="alert('Ride selected! Proceeding to booking...')">
+                            Select Ride
+                        </button>
+                    </div>
+                </div>
+            `;
+            driverCard.classList.add('active');
+        }
+
+        // Display no results message
+        function displayNoResults() {
+            const driverCard = document.getElementById('driverCard');
+            driverCard.innerHTML = `
+                <div class="driver-header">
+                    <div class="driver-image"><i class="fas fa-search"></i></div>
+                    <div class="driver-info">
+                        <h4>No Rides Found</h4>
+                        <div class="driver-rating" style="color: #6b7280;">
+                            <i class="fas fa-info-circle"></i> Try different locations
+                        </div>
+                    </div>
+                </div>
+                <div style="padding: 10px 0; color: var(--text-light); font-size: 0.9rem;">
+                    <p>No rides found from <strong>${currentPickup.name}</strong> to <strong>${currentDestination.name}</strong></p>
+                    <p style="margin-top: 8px;">Try selecting different pickup/destination points or check the route numbers.</p>
+                </div>
+            `;
+            driverCard.classList.add('active');
+        }
+
+        // Go back function
+        function goBack() {
+            window.location.href = 'home.html';
+        }
+
+        // Click on map to set destination
+        map.on('click', function(e) {
+            const { lat, lng } = e.latlng;
+            
+            if (!currentDestination) {
+                setDestination(lat, lng, 'Selected Location');
+                document.getElementById('destinationInput').value = 'Selected Location';
+            } else if (!currentPickup) {
+                setPickup(lat, lng, 'Selected Location');
+                document.getElementById('pickupInput').value = 'Selected Location';
+            } else {
+                // Reset and set new destination
+                if (destinationMarker) {
+                    map.removeLayer(destinationMarker);
+                    destinationMarker = null;
+                }
+                setDestination(lat, lng, 'Selected Location');
+                document.getElementById('destinationInput').value = 'Selected Location';
+            }
+        });
+
+        // Initialize
+        initMap();
+
+        // OpenRouteService is ready to use (no initialization needed)
+        console.log('✅ OpenRouteService routing ready (free API)');
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const icon = themeToggle.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
+    </script>
+</body>
+</html>
