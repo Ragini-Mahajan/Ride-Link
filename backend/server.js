@@ -114,8 +114,19 @@ app.get("/dashboard", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "dashboard.html"));
 });
 
-// STATIC FILES - Serve other assets
+// STATIC FILES - Serve backend public assets
 app.use(express.static(path.join(__dirname, "public")));
+
+// React frontend production build support (if exists)
+const reactBuildPath = path.join(__dirname, "..", "frontend", "dist");
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(reactBuildPath));
+
+  // fallback for client-side routes
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(reactBuildPath, "index.html"));
+  });
+}
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -123,18 +134,24 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "Server error", error: err.message });
 });
 
-// Connect to database and start server
-connectDB().then(async () => {
-  // Auto-seed database if empty
+const startServer = async () => {
+  await connectDB();
   await seedDatabaseIfEmpty();
-  
-  app.listen(5000, () => {
-    console.log("✅ Server running at http://localhost:5000");
-    console.log("📊 Seed data: http://localhost:5000/api/seed");
-    console.log("🚌 Rides API: http://localhost:5000/api/rides");
-    console.log("📅 Schedules API: http://localhost:5000/api/schedules");
-  });
-}).catch((err) => {
+
+  if (!process.env.VERCEL) {
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => {
+      console.log(`✅ Server running at http://localhost:${PORT}`);
+      console.log(`📊 Seed data: http://localhost:${PORT}/api/seed`);
+      console.log(`🚌 Rides API: http://localhost:${PORT}/api/rides`);
+      console.log(`📅 Schedules API: http://localhost:${PORT}/api/schedules`);
+    });
+  }
+};
+
+startServer().catch((err) => {
   console.error("❌ Failed to start server:", err);
   process.exit(1);
 });
+
+module.exports = app;

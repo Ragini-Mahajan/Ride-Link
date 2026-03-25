@@ -1,0 +1,7 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Arial, sans-serif; background: #f8f8f8; color: #333; }
+a { color: #0366d6; text-decoration: none; }
+a.active { font-weight: 700; text-decoration: underline; }
+nav { padding: 1rem; background: #fff; border-bottom: 1px solid #eee; }
+main { padding: 1rem; }
+.container { max-width: 960px; margin: 0 auto; }
